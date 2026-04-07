@@ -3,897 +3,1662 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLACK ZERO — Full-Service Marketing & Software</title>
+<title>BLACK ZERO — Transforming Vision into Global Revenue</title>
+<meta name="description" content="Black Zero delivers cutting-edge IT consulting, app development, digital marketing, business analytics, animation, and design. Your global tech partner for scale.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@latest/bundled/lenis.js"></script>
 <style>
-:root{
-  --gold:#C8A45A;
-  --gold-glow:rgba(200,164,90,.35);
-  --gold-dim:rgba(200,164,90,.12);
-  --off-white:#F0EDE6;
-  --black:#050505;
-  --ease:cubic-bezier(0.22,1,0.36,1);
+/* =========================================
+   RESET & BASE
+========================================= */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #080808;
+  --dark: #0d0d0b;
+  --dark-2: #111110;
+  --dark-3: #161614;
+  --gold: #c9a96e;
+  --gold-light: #e8d5a3;
+  --gold-dim: rgba(201,169,110,0.15);
+  --white: #f5f3ef;
+  --white-dim: rgba(245,243,239,0.6);
+  --white-faint: rgba(245,243,239,0.08);
+  --border: rgba(201,169,110,0.12);
+  --border-bright: rgba(201,169,110,0.35);
 }
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:auto;}
-html,body{width:100%;background:var(--black);color:var(--off-white);cursor:none;font-family:'DM Sans',sans-serif;}
 
-/* ── LOADING SCREEN ── */
-#loader{
-  position:fixed;inset:0;z-index:10000;background:var(--black);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;
-  transition:opacity .8s ease,visibility .8s;
+html { scroll-behavior: auto; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
 }
-#loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-#loader .loader-text{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.2em;color:var(--off-white);}
-#loader .loader-text span{color:var(--gold);}
-#loader .loader-bar{width:120px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
-#loader .loader-bar-fill{width:0%;height:100%;background:var(--gold);transition:width .3s;}
 
-/* ── THREE.JS BG ── */
-#bg-canvas{position:fixed;inset:0;z-index:0;}
-
-/* ── NOISE ── */
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.025;pointer-events:none;z-index:9000;}
-
-/* ── CURSOR ── */
-#cur{position:fixed;width:9px;height:9px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .22s var(--ease),height .22s var(--ease),background .22s,border .22s;box-shadow:0 0 20px var(--gold-glow);}
-#cur-ring{position:fixed;width:42px;height:42px;border:1px solid rgba(200,164,90,.25);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s;}
-#cur.expand{width:22px;height:22px;background:transparent;border:1.5px solid var(--gold);}
-#cur-ring.expand{width:56px;height:56px;border-color:var(--gold);}
-
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  padding:0 3rem;height:80px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(5,5,5,.3);
-  backdrop-filter:blur(30px) saturate(1.5);
-  -webkit-backdrop-filter:blur(30px) saturate(1.5);
-  border-bottom:1px solid rgba(200,164,90,.06);
-  transition:all .6s var(--ease);
-  transform:translateY(-100%);
+/* =========================================
+   LOADER
+========================================= */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
 }
-nav.nav-visible{transform:translateY(0);}
-nav.scrolled{
-  background:rgba(5,5,5,.88);
-  border-bottom:1px solid rgba(200,164,90,.18);
-  box-shadow:0 8px 50px rgba(0,0,0,.6),0 1px 0 rgba(200,164,90,.08);
-  height:64px;
+
+.loader-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0;
 }
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.15em;color:var(--off-white);text-decoration:none;display:flex;align-items:center;gap:.6rem;transition:transform .3s;}
-.nav-logo:hover{transform:scale(1.04);}
-.nav-logo span{color:var(--gold);text-shadow:0 0 25px rgba(200,164,90,.35);}
-.nav-logo-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;box-shadow:0 0 12px var(--gold-glow);animation:logo-pulse 2.5s ease-in-out infinite;}
-@keyframes logo-pulse{0%,100%{box-shadow:0 0 12px var(--gold-glow);}50%{box-shadow:0 0 28px var(--gold-glow),0 0 50px rgba(200,164,90,.12);}}
-.nav-links{display:flex;gap:2.5rem;list-style:none;}
-.nav-links a{
-  font-family:'Syne',sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(240,237,230,.4);text-decoration:none;position:relative;padding:.4rem 0;
-  transition:color .4s var(--ease);cursor:none;
+
+.loader-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  position: relative;
 }
-.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease);}
-.nav-links a:hover{color:var(--gold);}
-.nav-links a:hover::after{transform:scaleX(1);transform-origin:left;}
-.nav-links a.active{color:var(--off-white);}
-.nav-links a.active::after{transform:scaleX(1);transform-origin:left;opacity:.4;}
-.nav-cta{
-  font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;
-  color:#050505;background:var(--gold);padding:.7rem 1.6rem;text-decoration:none;
-  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
-  transition:all .35s var(--ease);cursor:none;font-weight:700;
-  box-shadow:0 4px 24px rgba(200,164,90,.3);
+
+.loader-count {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  font-weight: 300;
+  text-transform: uppercase;
 }
-.nav-cta:hover{background:var(--off-white);transform:translateY(-2px);box-shadow:0 8px 35px rgba(200,164,90,.4);}
 
-/* ── SECTIONS ── */
-.snap-section{
-  width:100%;min-height:100vh;
-  display:flex;align-items:center;justify-content:center;
-  padding:7rem 4rem 4rem;position:relative;
+/* =========================================
+   CURSOR
+========================================= */
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
 }
-.section-inner{position:relative;z-index:4;width:100%;max-width:1400px;margin:0 auto;}
 
-/* ── REVEAL ANIMATIONS ── */
-.reveal{opacity:0;transform:translateY(60px);transition:none;}
-.reveal-left{opacity:0;transform:translateX(-60px);transition:none;}
-.reveal-right{opacity:0;transform:translateX(60px);transition:none;}
-.reveal-scale{opacity:0;transform:scale(0.9);transition:none;}
-
-/* ── HERO ── */
-.hero-container{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2rem;}
-.hero-eye{font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,16vw,14rem);line-height:.9;letter-spacing:.015em;color:var(--off-white);}
-.hero-title .outline{color:transparent;-webkit-text-stroke:1px var(--gold);transition:all .6s var(--ease);}
-.hero-title:hover .outline{-webkit-text-stroke:1.5px var(--gold);text-shadow:0 0 80px rgba(200,164,90,.12);}
-.hero-sub{font-size:clamp(.85rem,1.3vw,1rem);color:rgba(240,237,230,.42);max-width:450px;line-height:1.82;margin-top:1rem;}
-.scroll-indicator{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:bounce-down 2.5s ease-in-out infinite;}
-.scroll-indicator span{font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(200,164,90,.45);}
-.scroll-bar{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);}
-@keyframes bounce-down{0%,100%{transform:translateX(-50%) translateY(0);opacity:.7;}50%{transform:translateX(-50%) translateY(12px);opacity:1;}}
-
-/* ── ABOUT ── */
-.about-container{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center;}
-.about-number{font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,20vw,15rem);color:rgba(200,164,90,.08);line-height:1;user-select:none;}
-.depth-card{background:rgba(5,5,5,.65);backdrop-filter:blur(24px);border:1px solid rgba(200,164,90,.12);border-radius:16px;padding:3rem;transition:border-color .6s var(--ease),box-shadow .6s var(--ease),transform .6s var(--ease);}
-.depth-card:hover{border-color:rgba(200,164,90,.28);box-shadow:0 24px 70px rgba(200,164,90,.08);transform:translateY(-4px);}
-.about-content h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,4.5vw,4.2rem);line-height:1.05;color:var(--off-white);margin-bottom:1.5rem;}
-.about-content h2 em{font-style:normal;color:var(--gold);}
-.about-label{font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:.9rem;margin-bottom:1.4rem;}
-.about-label::before{content:'';width:28px;height:1px;background:var(--gold);}
-.about-body{font-size:.95rem;line-height:1.85;color:rgba(240,237,230,.45);max-width:520px;margin-bottom:2.8rem;}
-.stats-container{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;border-top:1px solid rgba(255,255,255,.06);padding-top:2rem;}
-.stat-number{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--off-white);line-height:1;display:flex;align-items:baseline;gap:.08em;}
-.stat-number sup{font-size:1.4rem;color:var(--gold);}
-.stat-label{font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,237,230,.3);margin-top:.4rem;}
-
-/* ── SERVICES ── */
-.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem;}
-.services-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5.5rem);line-height:.9;color:var(--off-white);}
-.services-title em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--gold);}
-.services-desc{max-width:240px;font-size:.85rem;color:rgba(240,237,230,.35);line-height:1.7;}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(255,255,255,.04);}
-.service-card{background:#050505;padding:2.2rem 1.8rem;position:relative;overflow:hidden;transition:all .5s var(--ease);cursor:none;display:flex;flex-direction:column;gap:.8rem;}
-.service-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease);}
-.service-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(200,164,90,.06),transparent 70%);opacity:0;transition:opacity .5s;}
-.service-card:hover{background:#0C0C0C;transform:translateY(-10px) scale(1.02);box-shadow:0 35px 90px rgba(200,164,90,.1);}
-.service-card:hover::before{transform:scaleX(1);}
-.service-card:hover::after{opacity:1;}
-.service-number{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(200,164,90,.06);line-height:1;}
-.service-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--off-white);}
-.service-text{font-size:.78rem;line-height:1.72;color:rgba(240,237,230,.35);}
-
-/* ── WORK ── */
-.work-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;}
-.work-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5.5vw,4.8rem);color:var(--off-white);}
-.work-count{font-family:'Syne',sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,237,230,.28);}
-.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
-.work-card{background:#0A0A0A;border:1px solid rgba(255,255,255,.04);position:relative;overflow:hidden;padding:2rem 1.5rem 1.8rem;transition:all .6s var(--ease);cursor:none;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;border-radius:8px;}
-.work-card-bg{position:absolute;inset:0;opacity:.15;transition:opacity .7s var(--ease),transform 1s var(--ease);}
-.work-card:hover{border-color:rgba(200,164,90,.2);box-shadow:0 30px 80px rgba(200,164,90,.1);transform:translateY(-6px);}
-.work-card:hover .work-card-bg{opacity:.35;transform:scale(1.08);}
-.work-big-number{position:absolute;top:1rem;right:1rem;font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:rgba(200,164,90,.05);}
-.work-tag{font-family:'Syne',sans-serif;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;position:relative;z-index:2;}
-.work-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:var(--off-white);position:relative;z-index:2;}
-.work-desc{font-size:.72rem;color:rgba(240,237,230,.35);line-height:1.55;margin-top:.4rem;position:relative;z-index:2;}
-
-/* ── TESTIMONIAL ── */
-.testimonial-container{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:860px;margin:0 auto;gap:1.5rem;padding:3.5rem;background:rgba(5,5,5,.45);backdrop-filter:blur(24px);border:1px solid rgba(200,164,90,.12);border-radius:16px;transition:border-color .6s var(--ease),transform .6s var(--ease);}
-.testimonial-container:hover{border-color:rgba(200,164,90,.25);transform:translateY(-4px);}
-.quote-mark{font-family:'Bebas Neue',sans-serif;font-size:7rem;line-height:.5;color:var(--gold);opacity:.6;}
-.testimonial-text{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2.5vw,2.2rem);line-height:1.35;font-weight:600;color:var(--off-white);}
-.testimonial-author{font-size:.875rem;color:rgba(240,237,230,.38);display:flex;align-items:center;gap:1rem;}
-.author-dash{width:36px;height:1px;background:var(--gold);}
-
-/* ── CTA ── */
-.cta-container{display:flex;flex-direction:column;align-items:center;text-align:center;max-width:900px;margin:0 auto;gap:1.5rem;}
-.cta-eye{font-family:'Syne',sans-serif;font-size:.68rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);}
-.cta-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,12vw,11rem);line-height:.88;letter-spacing:.015em;color:var(--off-white);}
-.cta-title em{font-style:normal;color:transparent;-webkit-text-stroke:1px var(--gold);}
-.cta-sub{font-size:.95rem;color:rgba(240,237,230,.38);max-width:360px;line-height:1.75;}
-.button-group{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;}
-.btn-primary{font-family:'Syne',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;background:var(--gold);color:#050505;padding:1rem 2.8rem;text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:all .4s var(--ease);cursor:none;font-weight:700;box-shadow:0 4px 24px rgba(200,164,90,.3);}
-.btn-primary:hover{background:var(--off-white);transform:translateY(-4px);box-shadow:0 10px 40px rgba(200,164,90,.4);}
-.btn-ghost{font-family:'Syne',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--off-white);border:1px solid rgba(255,255,255,.12);padding:1rem 2.8rem;text-decoration:none;transition:all .4s var(--ease);cursor:none;}
-.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-4px);}
-
-/* ── FOOTER ── */
-footer{
-  position:relative;z-index:10;
-  border-top:1px solid rgba(200,164,90,.12);
-  background:rgba(5,5,5,.92);
-  backdrop-filter:blur(24px);
-  padding:5rem 3rem 2.5rem;
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(201, 169, 110, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s cubic-bezier(0.16,1,0.3,1),
+              height 0.5s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.3s ease,
+              background 0.3s ease;
 }
-.footer-inner{max-width:1400px;margin:0 auto;}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
-.footer-brand .footer-logo{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.15em;color:var(--off-white);margin-bottom:1rem;}
-.footer-brand .footer-logo span{color:var(--gold);}
-.footer-brand p{font-size:.85rem;line-height:1.75;color:rgba(240,237,230,.3);max-width:280px;}
-.footer-col h4{font-family:'Syne',sans-serif;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
-.footer-col ul{list-style:none;}
-.footer-col li{margin-bottom:.7rem;}
-.footer-col a{font-size:.85rem;color:rgba(240,237,230,.35);text-decoration:none;transition:color .3s,transform .3s;cursor:none;display:inline-block;}
-.footer-col a:hover{color:var(--gold);transform:translateX(4px);}
-.footer-bottom{
-  display:flex;justify-content:space-between;align-items:center;
-  padding-top:2rem;border-top:1px solid rgba(255,255,255,.05);
-  flex-wrap:wrap;gap:1rem;
+
+#cursor-ring.hovering {
+  width: 60px;
+  height: 60px;
+  border-color: var(--gold);
+  background: rgba(201,169,110,0.06);
 }
-.footer-copy{font-size:.75rem;color:rgba(240,237,230,.2);letter-spacing:.05em;}
-.footer-socials{display:flex;gap:1.5rem;}
-.footer-socials a{
-  font-family:'Syne',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(240,237,230,.25);text-decoration:none;transition:color .3s;cursor:none;position:relative;
+
+/* =========================================
+   THREE.JS CANVAS
+========================================= */
+#bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
-.footer-socials a::after{content:'';position:absolute;bottom:-3px;left:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .4s var(--ease);}
-.footer-socials a:hover{color:var(--gold);}
-.footer-socials a:hover::after{transform:scaleX(1);}
 
-/* ── DOTS ── */
-#dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:.75rem;}
-.dot{width:5px;height:5px;border-radius:50%;background:rgba(200,164,90,.18);transition:all .6s var(--ease);cursor:none;}
-.dot.on{background:var(--gold);transform:scale(1.8);box-shadow:0 0 18px rgba(200,164,90,.55);}
+/* =========================================
+   NAVIGATION
+========================================= */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 28px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: padding 0.4s ease, background 0.4s ease, backdrop-filter 0.4s ease;
+}
 
-/* ── HUD ── */
-#ctr{position:fixed;left:2.5rem;bottom:2rem;z-index:500;font-family:'Syne',sans-serif;font-size:.62rem;letter-spacing:.35em;color:rgba(200,164,90,.3);}
-#pbar{position:fixed;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),#50C878,var(--gold));z-index:500;width:0%;box-shadow:0 0 24px rgba(200,164,90,.5);}
-#kbd-hint{position:fixed;right:2rem;bottom:2rem;z-index:500;font-family:'Syne',sans-serif;font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,237,230,.18);animation:hint-pulse 2.5s ease-in-out infinite;}
-@keyframes hint-pulse{0%,100%{opacity:.18;}50%{opacity:.45;}}
+nav.scrolled {
+  padding: 18px 60px;
+  background: rgba(8,8,8,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
 
-.section-geo-label{position:fixed;left:2.5rem;top:50%;transform:translateY(-50%);z-index:500;font-family:'Bebas Neue',sans-serif;font-size:.7rem;letter-spacing:.4em;color:rgba(200,164,90,.15);writing-mode:vertical-rl;text-orientation:mixed;text-transform:uppercase;transition:opacity 1s var(--ease);}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  cursor: none;
+}
 
-/* ── PARALLAX GLOW ORBS ── */
-.glow-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:1;filter:blur(100px);opacity:.06;}
-.glow-orb-1{width:500px;height:500px;background:var(--gold);top:15%;left:-150px;}
-.glow-orb-2{width:350px;height:350px;background:#50C878;bottom:5%;right:-100px;}
-.glow-orb-3{width:250px;height:250px;background:#8B5CF6;top:60%;left:30%;opacity:.03;}
+.nav-logo span {
+  color: var(--gold);
+}
 
-/* ── HORIZONTAL SCROLL LINE ── */
-.h-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,164,90,.08),transparent);pointer-events:none;}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 44px;
+  align-items: center;
+}
 
-@media(max-width:1024px){.about-container{grid-template-columns:1fr;gap:2rem;}.services-grid{grid-template-columns:repeat(2,1fr);}.depth-card{padding:2rem;}.footer-top{grid-template-columns:1fr 1fr;}}
-@media(max-width:768px){.snap-section{padding:5rem 1.5rem 2rem;}.services-grid{grid-template-columns:1fr;}.work-grid{grid-template-columns:1fr;}#dots,#ctr,#kbd-hint,.section-geo-label{display:none;}.nav-links{gap:1rem;}.footer-top{grid-template-columns:1fr;gap:2rem;}.footer-bottom{flex-direction:column;text-align:center;}}
+.nav-links a {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white-dim);
+  transition: color 0.3s ease;
+  cursor: none;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--white);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-cta {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: 1px solid var(--border-bright);
+  color: var(--gold) !important;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease !important;
+  cursor: none;
+}
+
+.nav-cta::after { display: none !important; }
+
+.nav-cta:hover {
+  background: var(--gold) !important;
+  color: var(--black) !important;
+}
+
+/* =========================================
+   SECTIONS WRAPPER
+========================================= */
+.content { position: relative; z-index: 1; }
+
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================================
+   HERO
+========================================= */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.hero-eyebrow {
+  font-size: 10px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  opacity: 0;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(72px, 13vw, 160px);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  color: var(--white);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.hero-title .line {
+  display: block;
+  transform: translateY(110%);
+}
+
+.hero-title .line-italic {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: var(--white-dim);
+  max-width: 480px;
+  line-height: 1.9;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  margin-bottom: 60px;
+  opacity: 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  opacity: 0;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 15px 40px;
+  background: var(--gold);
+  color: var(--black);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  display: inline-block;
+  padding: 14px 40px;
+  border: 1px solid var(--border-bright);
+  color: var(--white);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+}
+
+.hero-scroll-indicator span {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  animation: scrollPulse 2s ease infinite;
+}
+
+@keyframes scrollPulse {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+
+/* =========================================
+   MARQUEE STRIP
+========================================= */
+.marquee-strip {
+  background: var(--gold);
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track span {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--black);
+  font-weight: 600;
+  padding: 0 32px;
+}
+
+.marquee-track .dot {
+  color: rgba(0,0,0,0.4);
+  font-size: 6px;
+  vertical-align: middle;
+  padding: 0;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* =========================================
+   ABOUT
+========================================= */
+#about {
+  padding: 140px 60px;
+  background: var(--dark);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 6vw, 80px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+
+.section-heading em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.section-text {
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.95;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.about-line {
+  width: 1px;
+  height: 0;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  margin: 40px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.stat-box {
+  padding: 40px;
+  border: 1px solid var(--border);
+  background: var(--white-faint);
+  transition: border-color 0.4s ease, background 0.4s ease;
+}
+
+.stat-box:hover {
+  border-color: var(--border-bright);
+  background: rgba(201,169,110,0.05);
+}
+
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+/* =========================================
+   SERVICES
+========================================= */
+#services {
+  padding: 140px 60px;
+  background: var(--dark-2);
+}
+
+.services-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.services-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 100px;
+  align-items: end;
+}
+
+.services-header p {
+  font-size: 15px;
+  color: var(--white-dim);
+  line-height: 1.9;
+  font-weight: 300;
+}
+
+.services-list { border-top: 1px solid var(--border); }
+
+.service-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 60px;
+  padding: 44px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  cursor: none;
+  transition: background 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-row::before {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.6s ease;
+}
+
+.service-row:hover::before { width: 100%; }
+
+.service-row:hover .srv-title { color: var(--gold); }
+
+.srv-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: rgba(201,169,110,0.2);
+  line-height: 1;
+}
+
+.srv-body {}
+
+.srv-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.srv-desc {
+  font-size: 13px;
+  color: var(--white-dim);
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 500px;
+}
+
+.srv-arrow {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.service-row:hover .srv-arrow {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+  transform: rotate(45deg);
+}
+
+/* =========================================
+   GLOBAL MAP / PRESENCE
+========================================= */
+#presence {
+  padding: 140px 60px;
+  background: var(--dark-3);
+  text-align: center;
+}
+
+.presence-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.presence-heading {
+  max-width: 700px;
+  margin: 0 auto 80px;
+}
+
+.offices-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.office-tile {
+  background: var(--dark-3);
+  padding: 40px 30px;
+  text-align: center;
+  transition: background 0.4s ease;
+  cursor: none;
+}
+
+.office-tile:hover {
+  background: rgba(201,169,110,0.06);
+}
+
+.office-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  color: var(--gold);
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.office-city {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+/* =========================================
+   TEAM
+========================================= */
+#team {
+  padding: 140px 60px;
+  background: var(--dark);
+}
+
+.team-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 80px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.team-card {
+  background: var(--white-faint);
+  border: 1px solid var(--border);
+  padding: 50px 40px;
+  text-align: center;
+  cursor: none;
+  transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 0;
+  background: linear-gradient(0deg, rgba(201,169,110,0.08), transparent);
+  transition: height 0.5s ease;
+}
+
+.team-card:hover::before { height: 100%; }
+
+.team-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-8px);
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid var(--border-bright);
+  background: var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--gold);
+  transition: background 0.3s ease;
+}
+
+.team-card:hover .team-avatar {
+  background: rgba(201,169,110,0.2);
+}
+
+.team-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+
+.team-role {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* =========================================
+   CLIENTS / LOGOS
+========================================= */
+#clients {
+  padding: 140px 60px;
+  background: var(--dark-2);
+}
+
+.clients-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin-top: 80px;
+}
+
+.client-tile {
+  background: var(--dark-2);
+  padding: 44px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  transition: background 0.4s ease;
+}
+
+.client-tile:hover {
+  background: rgba(201,169,110,0.06);
+}
+
+.client-tile span {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,243,239,0.3);
+  transition: color 0.4s ease;
+}
+
+.client-tile:hover span {
+  color: var(--gold);
+}
+
+/* =========================================
+   CONTACT
+========================================= */
+#contact {
+  padding: 140px 60px;
+  background: var(--dark-3);
+}
+
+.contact-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+  padding-bottom: 80px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 80px;
+}
+
+.contact-form-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  position: relative;
+}
+
+.form-row label {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-row input,
+.form-row textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 14px;
+  color: var(--white);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.3s ease;
+  resize: none;
+}
+
+.form-row textarea { min-height: 100px; }
+
+.form-row input:focus,
+.form-row textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-row input:focus + label,
+.form-row input:not(:placeholder-shown) + label,
+.form-row textarea:focus + label,
+.form-row textarea:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 9px;
+  color: var(--gold);
+}
+
+.contact-offices {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.contact-office h4 {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.contact-office p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--white-dim);
+  font-weight: 300;
+}
+
+.contact-office a {
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-office a:hover { color: var(--gold); }
+
+/* =========================================
+   FOOTER
+========================================= */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+.footer-copy {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(245,243,239,0.25);
+  text-transform: uppercase;
+}
+
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-links a {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,243,239,0.3);
+  text-decoration: none;
+  cursor: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+/* =========================================
+   ANIMATIONS & UTILITIES
+========================================= */
+.reveal-up {
+  overflow: hidden;
+}
+
+.reveal-up .inner {
+  transform: translateY(100%);
+  display: block;
+}
+
+.fade-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.gold-line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: 32px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 1024px) {
+  .about-grid,
+  .services-header,
+  .contact-top { grid-template-columns: 1fr; gap: 60px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .clients-grid { grid-template-columns: repeat(3, 1fr); }
+  .offices-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  section { padding: 100px 24px; }
+  #about, #services, #presence, #team, #clients, #contact { padding: 100px 24px; }
+  .hero-title { font-size: clamp(52px, 16vw, 100px); }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+  .team-grid { grid-template-columns: 1fr; }
+  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .offices-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .team-header { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-text">BLACK<span>ZERO</span></div>
-  <div class="loader-bar"><div class="loader-bar-fill" id="loader-fill"></div></div>
+  <div class="loader-logo" id="loader-logo">BLACK ZERO</div>
+  <div class="loader-line" id="loader-line" style="width:260px;"></div>
+  <div class="loader-count" id="loader-count">0%</div>
 </div>
 
-<div id="cur"></div>
-<div id="cur-ring"></div>
+<!-- CUSTOM CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
-<div class="glow-orb glow-orb-1"></div>
-<div class="glow-orb glow-orb-2"></div>
-<div class="glow-orb glow-orb-3"></div>
-
+<!-- THREE.JS CANVAS -->
 <canvas id="bg-canvas"></canvas>
 
 <!-- NAV -->
 <nav id="main-nav">
-  <a href="#" class="nav-logo" data-panel="0"><div class="nav-logo-dot"></div>BLACK<span>ZERO</span></a>
+  <a href="#hero" class="nav-logo" id="nav-logo-link">Black <span>Zero</span></a>
   <ul class="nav-links">
-    <li><a href="#s0" class="nav-link active" data-panel="0">Home</a></li>
-    <li><a href="#s1" class="nav-link" data-panel="1">About</a></li>
-    <li><a href="#s2" class="nav-link" data-panel="2">Services</a></li>
-    <li><a href="#s3" class="nav-link" data-panel="3">Work</a></li>
-    <li><a href="#s4" class="nav-link" data-panel="4">Clients</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#services" id="nav-services">Services</a></li>
+    <li><a href="#team" id="nav-team">Team</a></li>
+    <li><a href="#clients" id="nav-clients">Clients</a></li>
+    <li><a href="#contact" class="nav-cta" id="nav-contact">Contact</a></li>
   </ul>
-  <a href="#s5" class="nav-cta" data-panel="5">Get in Touch</a>
 </nav>
 
-<!-- SECTIONS -->
-<section class="snap-section" id="s0">
-  <div class="section-inner">
-    <div class="hero-container">
-      <span class="hero-eye reveal">Full-Service Marketing &amp; Software that Dominates</span>
-      <h1 class="hero-title reveal">FROM<br>CONCEPT<br><span class="outline">TO LEADER</span></h1>
-      <p class="hero-sub reveal">Data-driven architecture. Full-cycle solutions across the US. Smooth launch, high conversion, long-term growth.</p>
-      <div class="scroll-indicator reveal"><span>Scroll Down ↓</span><div class="scroll-bar"></div></div>
+<div class="content">
+
+  <!-- ===== HERO ===== -->
+  <section id="hero">
+    <div class="hero-eyebrow" id="hero-eyebrow">Global Tech Partner for Scale</div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="line">Transforming</span>
+      <span class="line line-italic">Vision</span>
+      <span class="line">into Revenue</span>
+    </h1>
+    <p class="hero-subtitle" id="hero-subtitle">
+      Full-service IT consulting, custom app development, digital marketing,
+      and business analytics. Built for scale across the globe.
+    </p>
+    <div class="hero-actions" id="hero-actions">
+      <a href="#services" class="btn-primary" id="hero-cta-primary">Explore Services</a>
+      <a href="#about" class="btn-ghost" id="hero-cta-ghost">Who We Are</a>
+    </div>
+    <div class="hero-scroll-indicator" id="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track" id="marquee-track">
+      <span>Web Development</span><span class="dot">◆</span>
+      <span>Digital Marketing</span><span class="dot">◆</span>
+      <span>Business Analytics</span><span class="dot">◆</span>
+      <span>2D &amp; 3D Animation</span><span class="dot">◆</span>
+      <span>Brand Design</span><span class="dot">◆</span>
+      <span>Photography &amp; Video</span><span class="dot">◆</span>
+      <span>IT Consulting</span><span class="dot">◆</span>
+      <span>Global Growth</span><span class="dot">◆</span>
+      <!-- duplicate for seamless loop -->
+      <span>Web Development</span><span class="dot">◆</span>
+      <span>Digital Marketing</span><span class="dot">◆</span>
+      <span>Business Analytics</span><span class="dot">◆</span>
+      <span>2D &amp; 3D Animation</span><span class="dot">◆</span>
+      <span>Brand Design</span><span class="dot">◆</span>
+      <span>Photography &amp; Video</span><span class="dot">◆</span>
+      <span>IT Consulting</span><span class="dot">◆</span>
+      <span>Global Growth</span><span class="dot">◆</span>
     </div>
   </div>
-</section>
 
-<section class="snap-section" id="s1">
-  <div class="section-inner">
-    <div class="about-container">
-      <div><div class="about-number reveal-left">01</div></div>
-      <div class="about-content depth-card reveal-right">
-        <div class="about-label">About Us</div>
-        <h2>We Build<br>Digital <em>Empires</em><br>From Zero</h2>
-        <p class="about-body">Black Zero is a full-service marketing and software company. We provide outstanding IT consulting, custom app development, and scalable digital solutions — engineered for the US market. Every project we ship is built to convert, scale, and dominate.</p>
-        <div class="stats-container">
-          <div class="reveal"><div class="stat-number"><span data-count="200">0</span><sup>+</sup></div><div class="stat-label">Projects Delivered</div></div>
-          <div class="reveal"><div class="stat-number"><span data-count="98">0</span><sup>%</sup></div><div class="stat-label">Client Satisfaction</div></div>
-          <div class="reveal"><div class="stat-number"><span data-count="7">0</span><sup>+</sup></div><div class="stat-label">Years of Craft</div></div>
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="about-grid">
+      <div>
+        <span class="section-label fade-reveal">Who We Are</span>
+        <span class="gold-line"></span>
+        <h2 class="section-heading fade-reveal">
+          Your Global <em>Tech Partner</em>
+        </h2>
+        <p class="section-text fade-reveal">
+          Black Zero delivers cutting-edge solutions across IT consulting, app development,
+          digital marketing, business analytics, animation, and design. We integrate advanced
+          AI analytics with immersive visual design to drive global growth.
+        </p>
+        <p class="section-text fade-reveal">
+          Every project we deliver is engineered for conversion, scalability, and long-term impact.
+        </p>
+        <a href="#contact" class="btn-ghost fade-reveal" id="about-cta" style="display:inline-block; margin-top:30px;">Work With Us</a>
+      </div>
+      <div class="stats-grid fade-reveal">
+        <div class="stat-box">
+          <div class="stat-num" id="stat-clients">500+</div>
+          <div class="stat-lbl">Global Clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-satisfaction">99%</div>
+          <div class="stat-lbl">Satisfaction Rate</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-years">8+</div>
+          <div class="stat-lbl">Years of Excellence</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-projects">1.2k+</div>
+          <div class="stat-lbl">Projects Delivered</div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="snap-section" id="s2">
-  <div class="section-inner">
-    <div class="services-header">
-      <h2 class="services-title reveal">OUR<br><em>SERVICES</em></h2>
-      <p class="services-desc reveal">From logos to living systems — full-cycle solutions that drive measurable growth.</p>
-    </div>
-    <div class="services-grid">
-      <div class="service-card reveal"><div class="service-number">01</div><div class="service-title">Web &amp; App Development</div><p class="service-text">Robust, scalable platforms built on modern frameworks. MVPs to enterprise grade.</p></div>
-      <div class="service-card reveal"><div class="service-number">02</div><div class="service-title">Brand Identity &amp; Design</div><p class="service-text">Cohesive, memorable brand imagery that commands attention and builds trust.</p></div>
-      <div class="service-card reveal"><div class="service-number">03</div><div class="service-title">2D &amp; 3D Animation</div><p class="service-text">Explainer videos and motion graphics that bring your brand to life.</p></div>
-      <div class="service-card reveal"><div class="service-number">04</div><div class="service-title">Digital Marketing</div><p class="service-text">Paid media, SEO, content strategy, and performance analytics at scale.</p></div>
-      <div class="service-card reveal"><div class="service-number">05</div><div class="service-title">Photography &amp; Video</div><p class="service-text">High-quality visuals that capture your story across every channel.</p></div>
-      <div class="service-card reveal"><div class="service-number">06</div><div class="service-title">IT Consulting</div><p class="service-text">Strategic technology roadmaps that prepare your business for scale.</p></div>
-    </div>
-  </div>
-</section>
+  <!-- ===== SERVICES ===== -->
+  <section id="services">
+    <div class="services-inner">
+      <div class="services-header">
+        <div>
+          <span class="section-label fade-reveal">What We Deliver</span>
+          <span class="gold-line"></span>
+          <h2 class="section-heading fade-reveal">
+            Our <em>Services</em>
+          </h2>
+        </div>
+        <p class="section-text fade-reveal" style="padding-top: 60px;">
+          We combine technical mastery with strategic thinking to deliver digital
+          solutions that create measurable impact across every industry.
+        </p>
+      </div>
 
-<section class="snap-section" id="s3">
-  <div class="section-inner">
-    <div class="work-header"><h2 class="work-title reveal">SELECTED WORK</h2><span class="work-count reveal">5 Projects</span></div>
-    <div class="work-grid">
-      <div class="work-card reveal"><div class="work-card-bg" style="background:linear-gradient(145deg,#0f3460,#1a1a2e)"></div><div class="work-big-number">01</div><div class="work-tag">Branding · Web</div><div class="work-name">NovaTech SaaS</div><div class="work-desc">Full brand identity + web app for a US-based fintech startup.</div></div>
-      <div class="work-card reveal"><div class="work-card-bg" style="background:linear-gradient(145deg,#6b3300,#1a0a00)"></div><div class="work-big-number">02</div><div class="work-tag">3D · Animation</div><div class="work-name">Apex Fitness</div><div class="work-desc">Award-winning motion campaign across social platforms.</div></div>
-      <div class="work-card reveal"><div class="work-card-bg" style="background:linear-gradient(145deg,#0a6b33,#0a1a0a)"></div><div class="work-big-number">03</div><div class="work-tag">Development</div><div class="work-name">MedCore Portal</div><div class="work-desc">Scalable healthcare application serving 50K+ users.</div></div>
-      <div class="work-card reveal"><div class="work-card-bg" style="background:linear-gradient(145deg,#6b006b,#1a0a1a)"></div><div class="work-big-number">04</div><div class="work-tag">Photography · Brand</div><div class="work-name">Lumière Cosmetics</div><div class="work-desc">Visual identity overhaul for luxury beauty brand.</div></div>
-      <div class="work-card reveal"><div class="work-card-bg" style="background:linear-gradient(145deg,#5c5200,#1a1700)"></div><div class="work-big-number">05</div><div class="work-tag">Marketing</div><div class="work-name">Orion Commerce</div><div class="work-desc">3× ROAS via data-driven performance marketing.</div></div>
-    </div>
-  </div>
-</section>
+      <div class="services-list">
 
-<section class="snap-section" id="s4">
-  <div class="section-inner">
-    <div class="testimonial-container reveal-scale">
-      <span class="quote-mark">"</span>
-      <blockquote class="testimonial-text">Black Zero didn't just build our website — they built our market presence. The results speak for themselves: 3× organic traffic, 40% better conversion, and a brand we're genuinely proud of.</blockquote>
-      <div class="testimonial-author"><span class="author-dash"></span><span>James Whitmore — CEO, NovaTech Inc.</span><span class="author-dash"></span></div>
-    </div>
-  </div>
-</section>
+        <div class="service-row fade-reveal" id="srv-1">
+          <div class="srv-num">01</div>
+          <div class="srv-body">
+            <h3 class="srv-title">Web &amp; App Development</h3>
+            <p class="srv-desc">Robust, scalable digital solutions. From MVPs to enterprise-grade platforms, built with modern frameworks and best practices.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
 
-<section class="snap-section" id="s5">
-  <div class="section-inner">
-    <div class="cta-container">
-      <span class="cta-eye reveal">Ready to Dominate?</span>
-      <h2 class="cta-title reveal">LET'S BUILD<br><em>SOMETHING</em><br>GREAT</h2>
-      <p class="cta-sub reveal">From concept to market leader — your journey starts with a single conversation.</p>
-      <div class="button-group reveal">
-        <a href="mailto:hello@blackzero.org" class="btn-primary">Start a Project</a>
-        <a href="#s3" class="btn-ghost" data-panel="3">View Our Work</a>
+        <div class="service-row fade-reveal" id="srv-2">
+          <div class="srv-num">02</div>
+          <div class="srv-body">
+            <h3 class="srv-title">Digital Marketing</h3>
+            <p class="srv-desc">Data-driven strategies that build awareness, drive traffic, and generate measurable leads across all channels.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
+
+        <div class="service-row fade-reveal" id="srv-3">
+          <div class="srv-num">03</div>
+          <div class="srv-body">
+            <h3 class="srv-title">Business Analytics</h3>
+            <p class="srv-desc">Comprehensive data solutions that unlock insights and enable informed decisions for sustainable growth.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
+
+        <div class="service-row fade-reveal" id="srv-4">
+          <div class="srv-num">04</div>
+          <div class="srv-body">
+            <h3 class="srv-title">2D &amp; 3D Animation</h3>
+            <p class="srv-desc">Stunning motion graphics and explainer videos that bring your brand to life across all platforms.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
+
+        <div class="service-row fade-reveal" id="srv-5">
+          <div class="srv-num">05</div>
+          <div class="srv-body">
+            <h3 class="srv-title">Brand Design &amp; Strategy</h3>
+            <p class="srv-desc">From logos to complete visual systems, we create memorable brand identities that command global attention.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
+
+        <div class="service-row fade-reveal" id="srv-6">
+          <div class="srv-num">06</div>
+          <div class="srv-body">
+            <h3 class="srv-title">Photography &amp; Videography</h3>
+            <p class="srv-desc">High-quality visuals capturing your products, team, and story for every marketing channel.</p>
+          </div>
+          <div class="srv-arrow">→</div>
+        </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ===== GLOBAL PRESENCE ===== -->
+  <section id="presence">
+    <div class="presence-inner">
+      <div class="presence-heading">
+        <span class="section-label fade-reveal" style="display:block;">Our Footprint</span>
+        <span class="gold-line" style="margin:0 auto 32px;"></span>
+        <h2 class="section-heading fade-reveal">
+          Serving Clients <em>Worldwide</em>
+        </h2>
+        <p class="section-text fade-reveal" style="max-width:560px;margin:0 auto;">
+          Operating across the United States, Europe, Asia, Middle East, and Africa — delivering
+          results wherever your business needs to grow.
+        </p>
+      </div>
+      <div class="offices-grid">
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🇵🇰</div>
+          <div class="office-city">Pakistan — Lahore</div>
+        </div>
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🇺🇸</div>
+          <div class="office-city">United States</div>
+        </div>
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🇬🇧</div>
+          <div class="office-city">United Kingdom</div>
+        </div>
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🇦🇪</div>
+          <div class="office-city">UAE — Dubai</div>
+        </div>
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🌍</div>
+          <div class="office-city">Africa — Regional</div>
+        </div>
+        <div class="office-tile fade-reveal">
+          <div class="office-num">🌏</div>
+          <div class="office-city">Asia — Regional</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEAM ===== -->
+  <section id="team">
+    <div class="team-inner">
+      <div class="team-header">
+        <div>
+          <span class="section-label fade-reveal">The People</span>
+          <span class="gold-line"></span>
+          <h2 class="section-heading fade-reveal">Our <em>Leadership</em></h2>
+        </div>
+        <p class="section-text fade-reveal" style="max-width:340px; text-align:right; padding-bottom:8px;">
+          A world-class team driving global technology and creative excellence.
+        </p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card fade-reveal" id="card-mh">
+          <div class="team-avatar">MH</div>
+          <div class="team-name">Mian Hashim Haroon</div>
+          <div class="team-role">CEO &amp; Founder</div>
+        </div>
+        <div class="team-card fade-reveal" id="card-da">
+          <div class="team-avatar">DA</div>
+          <div class="team-name">Dr. Abdullah Haroon</div>
+          <div class="team-role">Chief Operating Officer</div>
+        </div>
+        <div class="team-card fade-reveal" id="card-as">
+          <div class="team-avatar">AS</div>
+          <div class="team-name">Ayyan Shiraz</div>
+          <div class="team-role">Marketing Head</div>
+        </div>
+        <div class="team-card fade-reveal" id="card-yi">
+          <div class="team-avatar">YI</div>
+          <div class="team-name">Yasir Irshad</div>
+          <div class="team-role">IT Manager</div>
+        </div>
+        <div class="team-card fade-reveal" id="card-aa">
+          <div class="team-avatar">AA</div>
+          <div class="team-name">Ajwa Arshad</div>
+          <div class="team-role">Software Architect</div>
+        </div>
+        <div class="team-card fade-reveal" id="card-az">
+          <div class="team-avatar">AZ</div>
+          <div class="team-name">Alishba Zia</div>
+          <div class="team-role">Project Manager</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CLIENTS ===== -->
+  <section id="clients">
+    <div class="clients-inner">
+      <span class="section-label fade-reveal">Trusted By</span>
+      <span class="gold-line" style="margin:0 auto 24px;"></span>
+      <h2 class="section-heading fade-reveal">Global <em>Leaders</em></h2>
+      <div class="clients-grid">
+        <div class="client-tile fade-reveal"><span>Global Tech</span></div>
+        <div class="client-tile fade-reveal"><span>Digital Ventures</span></div>
+        <div class="client-tile fade-reveal"><span>Innovation Labs</span></div>
+        <div class="client-tile fade-reveal"><span>Future Systems</span></div>
+        <div class="client-tile fade-reveal"><span>Quantum</span></div>
+        <div class="client-tile fade-reveal"><span>Tech Pioneers</span></div>
+        <div class="client-tile fade-reveal"><span>Cloud Dynamics</span></div>
+        <div class="client-tile fade-reveal"><span>Smart Industries</span></div>
+        <div class="client-tile fade-reveal"><span>Vision Enterprise</span></div>
+        <div class="client-tile fade-reveal"><span>Digital Nexus</span></div>
+        <div class="client-tile fade-reveal"><span>Global Reach</span></div>
+        <div class="client-tile fade-reveal"><span>Future Forward</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact">
+    <div class="contact-inner">
+      <span class="section-label fade-reveal" style="display:block; margin-bottom:12px;">Let's Talk</span>
+      <span class="gold-line"></span>
+      <h2 class="section-heading fade-reveal" style="margin-bottom:80px;">
+        Start Your <em>Journey</em>
+      </h2>
+
+      <div class="contact-top">
+        <div class="contact-form-area">
+          <p class="section-text" style="margin-bottom:30px;">Ready to transform your vision into global revenue? Send us a message.</p>
+          <div class="form-row">
+            <input type="text" id="form-name" placeholder=" ">
+            <label for="form-name">Full Name</label>
+          </div>
+          <div class="form-row">
+            <input type="email" id="form-email" placeholder=" ">
+            <label for="form-email">Email Address</label>
+          </div>
+          <div class="form-row">
+            <textarea id="form-message" placeholder=" "></textarea>
+            <label for="form-message">Your Message</label>
+          </div>
+          <div style="margin-top:10px;">
+            <a href="mailto:info@blackzero.org" class="btn-primary" id="contact-submit">Send Message</a>
+          </div>
+        </div>
+
+        <div class="contact-offices">
+          <div class="contact-office">
+            <h4>Pakistan Office</h4>
+            <p>
+              Hotel MayFair, 4th Floor<br>
+              50-52, E-III, Commercial Zone<br>
+              Gulberg III, Lahore<br><br>
+              <a href="tel:+923244333267">+92 324 4333267</a><br>
+              <a href="mailto:info@blackzero.org">info@blackzero.org</a><br>
+              <a href="https://wa.me/923334888324" target="_blank">WhatsApp Chat ↗</a>
+            </p>
+          </div>
+          <div class="contact-office">
+            <h4>Global Presence</h4>
+            <p>
+              We serve clients across the United States, Europe, Asia, Middle East, and Africa.<br><br>
+              Ready to scale globally? Let's connect.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- .content -->
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand reveal">
-        <div class="footer-logo">BLACK<span>ZERO</span></div>
-        <p>Full-service marketing & software company. Engineering digital dominance from concept to market leader.</p>
-      </div>
-      <div class="footer-col reveal">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#s2">Web Development</a></li>
-          <li><a href="#s2">Brand Design</a></li>
-          <li><a href="#s2">3D Animation</a></li>
-          <li><a href="#s2">Digital Marketing</a></li>
-          <li><a href="#s2">IT Consulting</a></li>
-        </ul>
-      </div>
-      <div class="footer-col reveal">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#s1">About Us</a></li>
-          <li><a href="#s3">Our Work</a></li>
-          <li><a href="#s4">Testimonials</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Blog</a></li>
-        </ul>
-      </div>
-      <div class="footer-col reveal">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:hello@blackzero.org">hello@blackzero.org</a></li>
-          <li><a href="#">+1 (555) 000-0000</a></li>
-          <li><a href="#">New York, NY</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom reveal">
-      <span class="footer-copy">© 2025 Black Zero. All rights reserved.</span>
-      <div class="footer-socials">
-        <a href="#">LinkedIn</a>
-        <a href="#">Instagram</a>
-        <a href="#">Twitter</a>
-        <a href="#">Dribbble</a>
-      </div>
-    </div>
+  <div class="footer-logo">Black <span style="color:var(--gold)">Zero</span></div>
+  <div class="footer-copy">© 2025 Black Zero — All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="#about" id="footer-about">About</a>
+    <a href="#services" id="footer-services">Services</a>
+    <a href="#contact" id="footer-contact">Contact</a>
   </div>
 </footer>
 
-<div id="dots">
-  <div class="dot on" data-goto="0"></div>
-  <div class="dot" data-goto="1"></div>
-  <div class="dot" data-goto="2"></div>
-  <div class="dot" data-goto="3"></div>
-  <div class="dot" data-goto="4"></div>
-  <div class="dot" data-goto="5"></div>
-</div>
-
-<div id="ctr">01 / 06</div>
-<div id="pbar"></div>
-<div id="kbd-hint">↑ ↓ scroll</div>
-<div class="section-geo-label" id="geo-label">HERO</div>
-
 <script>
-// ══════════════════════════════════════════════════════════════
-//  GSAP + SCROLLTRIGGER SETUP
-// ══════════════════════════════════════════════════════════════
+// =====================================================
+// LENIS SMOOTH SCROLL
+// =====================================================
+const lenis = new Lenis({
+  duration: 1.4,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smooth: true,
+  smoothTouch: false,
+});
+
+function rafLoop(time) {
+  lenis.raf(time);
+  ScrollTrigger.update();
+  requestAnimationFrame(rafLoop);
+}
+requestAnimationFrame(rafLoop);
+
 gsap.registerPlugin(ScrollTrigger);
 
-// ══════════════════════════════════════════════════════════════
-//  LOADING SCREEN
-// ══════════════════════════════════════════════════════════════
-const loaderFill = document.getElementById('loader-fill');
-const loader = document.getElementById('loader');
-let loadProgress = 0;
-const loadInterval = setInterval(() => {
-  loadProgress += Math.random() * 25;
-  if (loadProgress > 100) loadProgress = 100;
-  loaderFill.style.width = loadProgress + '%';
-  if (loadProgress >= 100) {
-    clearInterval(loadInterval);
-    setTimeout(() => {
-      loader.classList.add('hidden');
-      document.getElementById('main-nav').classList.add('nav-visible');
-      initHeroAnimation();
-    }, 400);
-  }
-}, 200);
+// Wire up lenis + ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.lagSmoothing(0);
 
-// ══════════════════════════════════════════════════════════════
-//  THREE.JS — 3D GLOBE WITH SCROLL-LINKED ROTATION
-// ══════════════════════════════════════════════════════════════
-let scrollProgress = 0;
-let smoothScrollProgress = 0;
-
-(function () {
+// =====================================================
+// THREE.JS — PARTICLE FIELD
+// =====================================================
+(function() {
   const canvas = document.getElementById('bg-canvas');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0x000000, 0);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x050505, 0.025);
-  const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.1, 1000);
-  camera.position.z = 6;
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera.position.z = 600;
 
-  // ── LIGHTS ──
-  scene.add(new THREE.AmbientLight(0xC8A45A, 0.2));
-  const dl = new THREE.DirectionalLight(0xffffff, 0.9);
-  dl.position.set(8, 6, 5);
-  scene.add(dl);
-  const pl = new THREE.PointLight(0x50C878, 0.5, 150);
-  pl.position.set(-10, -8, 6);
-  scene.add(pl);
-  const pl2 = new THREE.PointLight(0xC8A45A, 0.5, 120);
-  pl2.position.set(6, -10, 4);
-  scene.add(pl2);
-  const pl3 = new THREE.PointLight(0x8B5CF6, 0.2, 100);
-  pl3.position.set(-4, 8, -3);
-  scene.add(pl3);
+  // Particles
+  const PARTICLE_COUNT = 2000;
+  const positions = new Float32Array(PARTICLE_COUNT * 3);
+  const colors = new Float32Array(PARTICLE_COUNT * 3);
+  const speeds = new Float32Array(PARTICLE_COUNT);
+  const goldr = 201/255, goldg = 169/255, goldb = 110/255;
 
-  const goldWire = new THREE.MeshBasicMaterial({ color: 0xC8A45A, wireframe: true, transparent: true, opacity: 0.15 });
-  const goldLine = (o = 0.12) => new THREE.LineBasicMaterial({ color: 0xC8A45A, transparent: true, opacity: o });
-  const goldMesh = new THREE.MeshStandardMaterial({ color: 0xC8A45A, transparent: true, opacity: 0.06, metalness: 0.8, roughness: 0.2, emissive: 0x222222 });
-
-  // ── MAIN GLOBE GROUP ──
-  const globeGroup = new THREE.Group();
-  scene.add(globeGroup);
-
-  // ── GLOBE: Wireframe sphere with latitude/longitude lines ──
-  // Main sphere wireframe
-  const sphereGeo = new THREE.IcosahedronGeometry(2.2, 5);
-  const sphereWire = new THREE.Mesh(sphereGeo, goldWire.clone());
-  sphereWire.material.opacity = 0.08;
-  globeGroup.add(sphereWire);
-
-  // Solid inner sphere for depth
-  const innerSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(2.1, 4), goldMesh.clone());
-  innerSphere.material.opacity = 0.03;
-  globeGroup.add(innerSphere);
-
-  // Latitude rings
-  for (let i = 0; i < 7; i++) {
-    const angle = (i / 6 - 0.5) * Math.PI * 0.9;
-    const r = Math.cos(angle) * 2.22;
-    const y = Math.sin(angle) * 2.22;
-    const ringGeo = new THREE.RingGeometry(r - 0.005, r + 0.005, 100);
-    const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xC8A45A, transparent: true, opacity: 0.06 + (i === 3 ? 0.04 : 0), side: THREE.DoubleSide }));
-    ring.position.y = y;
-    ring.rotation.x = Math.PI / 2;
-    globeGroup.add(ring);
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    positions[i * 3]     = (Math.random() - 0.5) * 1600;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 1600;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 800;
+    const t = Math.random();
+    colors[i * 3]     = goldr * (0.3 + t * 0.7);
+    colors[i * 3 + 1] = goldg * (0.3 + t * 0.7);
+    colors[i * 3 + 2] = goldb * (0.3 + t * 0.7);
+    speeds[i] = 0.02 + Math.random() * 0.08;
   }
 
-  // Longitude arcs (great circles)
-  for (let i = 0; i < 8; i++) {
-    const curve = new THREE.EllipseCurve(0, 0, 2.22, 2.22, 0, Math.PI * 2, false, 0);
-    const points = curve.getPoints(120);
-    const geo3D = new THREE.BufferGeometry();
-    const pos3 = new Float32Array(points.length * 3);
-    const rotAngle = (i / 8) * Math.PI;
-    for (let j = 0; j < points.length; j++) {
-      const x = points[j].x * Math.cos(rotAngle);
-      const y = points[j].y;
-      const z = points[j].x * Math.sin(rotAngle);
-      pos3[j*3] = x; pos3[j*3+1] = y; pos3[j*3+2] = z;
-    }
-    geo3D.setAttribute('position', new THREE.BufferAttribute(pos3, 3));
-    globeGroup.add(new THREE.Line(geo3D, goldLine(0.07)));
-  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  // Globe surface points (city-like dots)
-  const dotCount = 600;
-  const dotPositions = new Float32Array(dotCount * 3);
-  const dotColors = new Float32Array(dotCount * 3);
-  for (let i = 0; i < dotCount; i++) {
-    const phi = Math.acos(2 * Math.random() - 1);
-    const theta = Math.random() * Math.PI * 2;
-    const r = 2.23;
-    dotPositions[i*3] = r * Math.sin(phi) * Math.cos(theta);
-    dotPositions[i*3+1] = r * Math.cos(phi);
-    dotPositions[i*3+2] = r * Math.sin(phi) * Math.sin(theta);
-    const c = new THREE.Color().setHSL(0.1 + Math.random() * 0.06, 0.7, 0.45 + Math.random() * 0.2);
-    dotColors[i*3] = c.r; dotColors[i*3+1] = c.g; dotColors[i*3+2] = c.b;
-  }
-  const dotGeo = new THREE.BufferGeometry();
-  dotGeo.setAttribute('position', new THREE.BufferAttribute(dotPositions, 3));
-  dotGeo.setAttribute('color', new THREE.BufferAttribute(dotColors, 3));
-  const dotMat = new THREE.PointsMaterial({ size: 0.025, vertexColors: true, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true });
-  globeGroup.add(new THREE.Points(dotGeo, dotMat));
+  const mat = new THREE.PointsMaterial({
+    size: 1.8,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.55,
+    sizeAttenuation: true,
+  });
 
-  // Orbital rings around globe
-  for (let i = 0; i < 3; i++) {
-    const r = 2.8 + i * 0.7;
-    const torusGeo = new THREE.TorusGeometry(r, 0.008, 6, 200);
-    const torus = new THREE.Mesh(torusGeo, new THREE.MeshBasicMaterial({ color: 0xC8A45A, transparent: true, opacity: 0.08 - i * 0.02 }));
-    torus.rotation.x = Math.PI * (0.3 + i * 0.25);
-    torus.rotation.z = i * 0.4;
-    globeGroup.add(torus);
-  }
-
-  // Floating particles
-  const particleCount = 500;
-  const pGeo = new THREE.BufferGeometry();
-  const pPos = new Float32Array(particleCount * 3);
-  const pVel = [];
-  for (let i = 0; i < particleCount; i++) {
-    pPos[i*3] = (Math.random() - .5) * 35;
-    pPos[i*3+1] = (Math.random() - .5) * 35;
-    pPos[i*3+2] = (Math.random() - .5) * 18;
-    pVel.push({ x: (Math.random()-.5)*.002, y: (Math.random()-.5)*.002, z: (Math.random()-.5)*.0015 });
-  }
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  const pMat = new THREE.PointsMaterial({ color: 0xC8A45A, size: .018, transparent: true, opacity: .25, blending: THREE.AdditiveBlending, depthWrite: false });
-  const particles = new THREE.Points(pGeo, pMat);
+  const particles = new THREE.Points(geo, mat);
   scene.add(particles);
 
-  // Connection lines emanating from globe
-  const connCount = 20;
-  const connLines = [];
-  for (let i = 0; i < connCount; i++) {
-    const phi = Math.acos(2 * Math.random() - 1);
-    const theta = Math.random() * Math.PI * 2;
-    const r1 = 2.25;
-    const r2 = 4 + Math.random() * 3;
-    const start = new THREE.Vector3(
-      r1 * Math.sin(phi) * Math.cos(theta),
-      r1 * Math.cos(phi),
-      r1 * Math.sin(phi) * Math.sin(theta)
-    );
-    const end = new THREE.Vector3(
-      r2 * Math.sin(phi) * Math.cos(theta) + (Math.random()-.5)*2,
-      r2 * Math.cos(phi) + (Math.random()-.5)*2,
-      r2 * Math.sin(phi) * Math.sin(theta) + (Math.random()-.5)*2
-    );
-    const mid = start.clone().lerp(end, 0.5);
-    mid.multiplyScalar(1.15);
-    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    const pts = curve.getPoints(30);
-    const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
-    const line = new THREE.Line(lineGeo, goldLine(0.04 + Math.random() * 0.04));
-    globeGroup.add(line);
-    connLines.push(line);
+  // Wireframe sphere
+  const sphereGeo = new THREE.IcosahedronGeometry(180, 3);
+  const wireGeo = new THREE.WireframeGeometry(sphereGeo);
+  const wireMat = new THREE.LineBasicMaterial({
+    color: 0xc9a96e,
+    transparent: true,
+    opacity: 0.04,
+  });
+  const sphere = new THREE.LineSegments(wireGeo, wireMat);
+  scene.add(sphere);
 
-    // Endpoint glow dot
-    const dg = new THREE.SphereGeometry(0.03, 6, 6);
-    const dm = new THREE.Mesh(dg, new THREE.MeshBasicMaterial({ color: 0xC8A45A, transparent: true, opacity: 0.4 }));
-    dm.position.copy(end);
-    globeGroup.add(dm);
+  // Small floating icosahedra
+  const floaters = [];
+  for (let i = 0; i < 5; i++) {
+    const g = new THREE.IcosahedronGeometry(18 + Math.random() * 40, 0);
+    const wg = new THREE.WireframeGeometry(g);
+    const wm = new THREE.LineBasicMaterial({
+      color: 0xc9a96e,
+      transparent: true,
+      opacity: 0.12 + Math.random() * 0.10,
+    });
+    const mesh = new THREE.LineSegments(wg, wm);
+    mesh.position.set(
+      (Math.random() - 0.5) * 600,
+      (Math.random() - 0.5) * 400,
+      (Math.random() - 0.5) * 200
+    );
+    scene.add(mesh);
+    floaters.push({
+      mesh,
+      rx: (Math.random() - 0.5) * 0.004,
+      ry: (Math.random() - 0.5) * 0.006,
+      fy: Math.random() * Math.PI * 2,
+      fs: 0.003 + Math.random() * 0.004,
+      fa: 15 + Math.random() * 30,
+    });
   }
 
-  // ── MOUSE ──
-  let mx = 0, my = 0, tmx = 0, tmy = 0;
-  document.addEventListener('mousemove', e => { tmx = (e.clientX/innerWidth - .5)*2; tmy = -(e.clientY/innerHeight - .5)*2; });
+  // Mouse parallax
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = (e.clientX / window.innerWidth - 0.5) * 2;
+    my = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
 
-  // ── ANIMATION LOOP ──
-  let t = 0;
-  let camZ = 6, targetCamZ = 6;
+  let clock = 0;
+  function renderThree() {
+    clock += 0.005;
 
-  (function loop() {
-    requestAnimationFrame(loop);
-    t += 0.003;
-
-    mx += (tmx - mx) * 0.03;
-    my += (tmy - my) * 0.03;
-
-    smoothScrollProgress += (scrollProgress - smoothScrollProgress) * 0.06;
-
-    // Globe scroll-linked rotation: rotates ~720° over full scroll
-    const scrollRot = smoothScrollProgress * Math.PI * 4;
-    
-    // Natural idle rotation + scroll-driven rotation
-    const targetRotY = scrollRot + t * 0.08;
-    const targetRotX = Math.sin(smoothScrollProgress * Math.PI * 2) * 0.3 + Math.sin(t * 0.12) * 0.08 + my * 0.15;
-    const targetRotZ = Math.cos(smoothScrollProgress * Math.PI * 1.5) * 0.15 + Math.sin(t * 0.1) * 0.05;
-
-    globeGroup.rotation.y += (targetRotY - globeGroup.rotation.y) * 0.04;
-    globeGroup.rotation.x += (targetRotX - globeGroup.rotation.x) * 0.04;
-    globeGroup.rotation.z += (targetRotZ - globeGroup.rotation.z) * 0.04;
-
-    // Globe scale pulsing on scroll
-    const pulseScale = 1 + Math.sin(smoothScrollProgress * Math.PI * 3) * 0.06;
-    globeGroup.scale.setScalar(pulseScale);
-
-    // Camera depth — pulls in/out as you scroll
-    targetCamZ = 5.5 + Math.sin(smoothScrollProgress * Math.PI * 2) * 1.2 + Math.cos(t * 0.25) * 0.4;
-    camZ += (targetCamZ - camZ) * 0.04;
-    camera.position.z = camZ;
-    camera.position.x += (mx * .5 - camera.position.x) * 0.025;
-    camera.position.y += (my * .3 - camera.position.y) * 0.025;
-
-    // Animate floating particles
-    const pp = particles.geometry.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      pp[i*3] += pVel[i].x;
-      pp[i*3+1] += pVel[i].y;
-      pp[i*3+2] += pVel[i].z;
-      if (Math.abs(pp[i*3]) > 18) pVel[i].x *= -1;
-      if (Math.abs(pp[i*3+1]) > 18) pVel[i].y *= -1;
-      if (Math.abs(pp[i*3+2]) > 9) pVel[i].z *= -1;
+    // Drift particles
+    const pos = geo.attributes.position.array;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      pos[i * 3 + 1] += speeds[i] * 0.12;
+      if (pos[i * 3 + 1] > 800) pos[i * 3 + 1] = -800;
     }
-    particles.geometry.attributes.position.needsUpdate = true;
-    particles.rotation.y = t * 0.015;
+    geo.attributes.position.needsUpdate = true;
 
-    // Dynamic lights
-    const lp = smoothScrollProgress * Math.PI * 2;
-    dl.intensity = 0.7 + Math.sin(lp * 0.5) * 0.2;
-    pl.intensity = 0.5 + Math.cos(lp * 0.3) * 0.25;
-    pl2.intensity = 0.5 + Math.sin(lp * 0.6) * 0.2;
-    pl3.intensity = 0.15 + Math.sin(lp * 0.4) * 0.1;
+    // Sphere rotation
+    sphere.rotation.x = clock * 0.08 + my * 0.15;
+    sphere.rotation.y = clock * 0.12 + mx * 0.15;
 
-    // Connection line opacity pulses
-    connLines.forEach((line, i) => {
-      line.material.opacity = 0.03 + Math.sin(t * 2 + i * 0.5) * 0.03;
+    // Floaters
+    floaters.forEach(f => {
+      f.mesh.rotation.x += f.rx;
+      f.mesh.rotation.y += f.ry;
+      f.mesh.position.y += Math.sin(clock + f.fy * f.fs) * 0.3;
     });
 
+    // Camera parallax
+    camera.position.x += (mx * 30 - camera.position.x) * 0.04;
+    camera.position.y += (-my * 20 - camera.position.y) * 0.04;
+    camera.lookAt(scene.position);
+
     renderer.render(scene, camera);
-  })();
+    requestAnimationFrame(renderThree);
+  }
+  renderThree();
 
   window.addEventListener('resize', () => {
-    camera.aspect = innerWidth/innerHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
   });
 })();
 
-// ══════════════════════════════════════════════════════════════
-//  CURSOR
-// ══════════════════════════════════════════════════════════════
-const curEl = document.getElementById('cur');
-const ringEl = document.getElementById('cur-ring');
-let cx=0,cy=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;curEl.style.left=cx+'px';curEl.style.top=cy+'px';});
-(function ar(){rx+=(cx-rx)*.07;ry+=(cy-ry)*.07;ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(ar);})();
-document.querySelectorAll('a,button,.service-card,.work-card,.dot,.depth-card,.testimonial-container').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{curEl.classList.add('expand');ringEl.classList.add('expand');});
-  el.addEventListener('mouseleave',()=>{curEl.classList.remove('expand');ringEl.classList.remove('expand');});
+// =====================================================
+// CUSTOM CURSOR
+// =====================================================
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let curX = 0, curY = 0, ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  curX = e.clientX; curY = e.clientY;
+  dot.style.left  = curX + 'px';
+  dot.style.top   = curY + 'px';
 });
 
-// ══════════════════════════════════════════════════════════════
-//  GSAP SCROLL ANIMATIONS
-// ══════════════════════════════════════════════════════════════
-const sections = document.querySelectorAll('.snap-section');
-const dots = document.querySelectorAll('.dot');
-const ctr = document.getElementById('ctr');
-const pbar = document.getElementById('pbar');
-const geoLabel = document.getElementById('geo-label');
-const nav = document.getElementById('main-nav');
-const navLinks = document.querySelectorAll('.nav-link');
-const TOTAL = sections.length;
-const GEO_LABELS = ['HERO','ABOUT','SERVICES','WORK','CLIENTS','CTA'];
-let current = 0;
+(function animateCursor() {
+  ringX += (curX - ringX) * 0.12;
+  ringY += (curY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top  = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+})();
 
+document.querySelectorAll('a, button, .service-row, .team-card, .client-tile, .office-tile, .stat-box').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+});
+
+// =====================================================
+// LOADER ANIMATION
+// =====================================================
+(function() {
+  const logo = document.getElementById('loader-logo');
+  const line = document.getElementById('loader-line');
+  const count = document.getElementById('loader-count');
+  const loader = document.getElementById('loader');
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 8 + 2;
+    if (progress >= 100) { progress = 100; clearInterval(interval); }
+    count.textContent = Math.floor(progress) + '%';
+    line.style.width = (progress / 100 * 260) + 'px';
+  }, 60);
+
+  gsap.to(logo, { opacity: 1, duration: 0.8, delay: 0.2 });
+
+  gsap.to(loader, {
+    opacity: 0,
+    duration: 0.8,
+    delay: 2.2,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      loader.style.display = 'none';
+      initHeroAnimation();
+    }
+  });
+})();
+
+// =====================================================
+// HERO ANIMATION
+// =====================================================
 function initHeroAnimation() {
-  // Hero staggered entrance
-  const heroReveals = document.querySelectorAll('#s0 .reveal');
-  gsap.fromTo(heroReveals, 
-    { opacity: 0, y: 60 },
-    { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.1 }
-  );
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+  tl.to('.hero-title .line', {
+    y: 0,
+    duration: 1.2,
+    stagger: 0.15,
+  })
+  .to('#hero-eyebrow', { opacity: 1, y: 0, duration: 0.8 }, '-=0.6')
+  .to('#hero-subtitle', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
+  .to('#hero-actions', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
+  .to('#hero-scroll', { opacity: 1, duration: 0.8 }, '-=0.3');
 }
 
-// Scroll-triggered reveals for each section
-document.querySelectorAll('.snap-section:not(#s0)').forEach(section => {
-  // Standard reveals (fade up)
-  const reveals = section.querySelectorAll('.reveal');
-  if (reveals.length) {
-    gsap.fromTo(reveals,
-      { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 75%', end: 'top 25%', toggleActions: 'play none none reverse' }
-      }
-    );
-  }
-
-  // Left reveals
-  const lefts = section.querySelectorAll('.reveal-left');
-  if (lefts.length) {
-    gsap.fromTo(lefts,
-      { opacity: 0, x: -70 },
-      { opacity: 1, x: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none reverse' }
-      }
-    );
-  }
-
-  // Right reveals
-  const rights = section.querySelectorAll('.reveal-right');
-  if (rights.length) {
-    gsap.fromTo(rights,
-      { opacity: 0, x: 70 },
-      { opacity: 1, x: 0, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none reverse' }
-      }
-    );
-  }
-
-  // Scale reveals
-  const scales = section.querySelectorAll('.reveal-scale');
-  if (scales.length) {
-    gsap.fromTo(scales,
-      { opacity: 0, scale: 0.85 },
-      { opacity: 1, scale: 1, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 75%', toggleActions: 'play none none reverse' }
-      }
-    );
-  }
-});
-
-// Footer reveals
-const footerReveals = document.querySelectorAll('footer .reveal');
-if (footerReveals.length) {
-  gsap.fromTo(footerReveals,
+// =====================================================
+// SCROLL REVEAL — ALL .fade-reveal ELEMENTS
+// =====================================================
+gsap.utils.toArray('.fade-reveal').forEach((el, i) => {
+  gsap.fromTo(el,
     { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-      scrollTrigger: { trigger: 'footer', start: 'top 85%', toggleActions: 'play none none reverse' }
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 84%',
+        toggleActions: 'play none none none',
+      }
     }
   );
-}
-
-// Parallax about number
-gsap.to('.about-number', {
-  y: -80, ease: 'none',
-  scrollTrigger: { trigger: '#s1', start: 'top bottom', end: 'bottom top', scrub: 1 }
 });
 
-// Counter animation
-ScrollTrigger.create({
-  trigger: '#s1',
-  start: 'top 60%',
-  onEnter: () => {
-    document.querySelectorAll('[data-count]').forEach(el => {
-      if (el._counted) return;
-      el._counted = true;
-      const target = +el.dataset.count;
-      gsap.to({ val: 0 }, {
-        val: target, duration: 1.5, ease: 'power2.out',
-        onUpdate: function() { el.textContent = Math.round(this.targets()[0].val); }
-      });
-    });
-  }
-});
-
-// Scroll progress tracker
-let ticking = false;
+// =====================================================
+// NAV SCROLL EFFECT
+// =====================================================
 window.addEventListener('scroll', () => {
-  if (!ticking) {
-    requestAnimationFrame(() => {
-      const sy = window.scrollY;
-      const sh = document.documentElement.scrollHeight - innerHeight;
-      scrollProgress = sh > 0 ? sy / sh : 0;
-      pbar.style.width = (scrollProgress * 100).toFixed(2) + '%';
-
-      let nc = 0;
-      sections.forEach((s, i) => {
-        const r = s.getBoundingClientRect();
-        if (r.top < innerHeight * 0.5 && r.bottom > innerHeight * 0.3) nc = i;
-      });
-
-      if (nc !== current) {
-        current = nc;
-        dots.forEach((d, i) => d.classList.toggle('on', i === current));
-        ctr.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
-        geoLabel.textContent = GEO_LABELS[current] || '';
-        navLinks.forEach((a, i) => a.classList.toggle('active', i === current));
-      }
-
-      nav.classList.toggle('scrolled', sy > 60);
-
-      // Parallax glow orbs
-      const o1 = document.querySelector('.glow-orb-1');
-      const o2 = document.querySelector('.glow-orb-2');
-      const o3 = document.querySelector('.glow-orb-3');
-      if (o1) o1.style.transform = `translate3d(0,${sy * 0.12}px,0)`;
-      if (o2) o2.style.transform = `translate3d(0,${-sy * 0.08}px,0)`;
-      if (o3) o3.style.transform = `translate3d(${Math.sin(sy*0.003)*30}px,${-sy * 0.05}px,0)`;
-
-      ticking = false;
-    });
-    ticking = true;
-  }
-}, { passive: true });
-
-// Smooth scroll navigation
-function goTo(idx) {
-  const target = sections[idx];
-  if (target) {
-    gsap.to(window, { duration: 1.2, scrollTo: { y: target, offsetY: 0 }, ease: 'power3.inOut' });
-  }
-}
-
-// Fallback if ScrollTo plugin not loaded
-if (!gsap.plugins || !gsap.plugins.scrollTo) {
-  window._goTo = goTo;
-  goTo = function(idx) {
-    const target = sections[idx];
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-}
-
-document.querySelectorAll('[data-panel]').forEach(el => {
-  el.addEventListener('click', e => { e.preventDefault(); goTo(+el.dataset.panel); });
-});
-document.querySelectorAll('[data-goto]').forEach(el => {
-  el.addEventListener('click', () => goTo(+el.dataset.goto));
+  const nav = document.getElementById('main-nav');
+  if (window.scrollY > 60) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
 });
 
-// Section-by-section scroll (wheel + keyboard)
-let isAnimating = false;
-function goToSection(idx) {
-  if (isAnimating) return;
-  isAnimating = true;
-  goTo(idx);
-  setTimeout(() => { isAnimating = false; }, 1200);
-}
+// =====================================================
+// SMOOTH SCROLL NAV LINKS
+// =====================================================
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const id = link.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -70, duration: 1.6 });
+    }
+  });
+});
 
-window.addEventListener('wheel', (e) => {
-  // At the last section scrolling down: let the page scroll naturally to the footer
-  if (e.deltaY > 0 && current >= TOTAL - 1) return;
-  // At the first section scrolling up: let browser handle it normally
-  if (e.deltaY < 0 && current <= 0) return;
-  e.preventDefault();
-  if (e.deltaY > 0) goToSection(Math.min(current + 1, TOTAL - 1));
-  else if (e.deltaY < 0) goToSection(Math.max(current - 1, 0));
-}, { passive: false });
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-    if (current >= TOTAL - 1) return; // allow natural scroll to footer
-    e.preventDefault(); goToSection(Math.min(current + 1, TOTAL - 1));
-  }
-  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-    if (current <= 0) return;
-    e.preventDefault(); goToSection(Math.max(current - 1, 0));
+// =====================================================
+// GOLD LINE ANIMATION IN ABOUT
+// =====================================================
+gsap.fromTo('.about-line', { height: 0 }, {
+  height: 80,
+  duration: 1.2,
+  ease: 'power3.out',
+  scrollTrigger: {
+    trigger: '#about',
+    start: 'top 70%',
   }
 });
 
-dots[0].classList.add('on');
+// =====================================================
+// SECTION HEADING CHAR SPLIT (lightweight)
+// =====================================================
+document.querySelectorAll('.section-heading').forEach(el => {
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 85%',
+    onEnter: () => {
+      gsap.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: 'power4.out' });
+    }
+  });
+});
 </script>
 </body>
 </html>
