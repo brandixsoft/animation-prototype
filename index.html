@@ -71,6 +71,91 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);curs
 .direction-compass{width:80px;height:80px;border:1px solid rgba(201,169,110,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px);background:rgba(3,3,8,0.5)}
 .direction-arrow{width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:20px solid var(--gold);transition:transform 0.8s cubic-bezier(0.34,1.56,0.64,1);filter:drop-shadow(0 0 8px var(--gold))}
 
+/* Blackhole Vortex Effect */
+.blackhole-vortex{animation:blackholePulse 3s ease-in-out infinite;z-index:5}
+.blackhole-particle{transition:all 0.1s ease-out}
+.event-horizon{animation:eventHorizonPulse 2s ease-in-out infinite}
+
+/* Ensure main content is visible */
+.space-journey{visibility:visible;opacity:1;position:relative;z-index:10}
+.content-section{visibility:visible;opacity:1;position:relative;z-index:10;transform-origin:center center}
+
+/* Planet-based content emergence effects */
+.content-section .section-inner{
+  transform:scale(0.8) translateY(30px);
+  opacity:0;
+  transition:all 1.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.content-section.visible .section-inner{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+
+/* Planet glow effects for sections */
+.content-section::before{
+  content:'';
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:200px;
+  height:200px;
+  background:radial-gradient(circle,rgba(201,169,110,0.3),transparent 70%);
+  border-radius:50%;
+  transform:translate(-50%,-50%) scale(0);
+  transition:transform 1s ease-out;
+  pointer-events:none;
+}
+
+.content-section.visible::before{
+  transform:translate(-50%,-50%) scale(3);
+}
+
+/* Planet-specific glow colors */
+.content-section[data-zone="Sun"]::before{
+  background:radial-gradient(circle,rgba(255,221,68,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Mercury"]::before{
+  background:radial-gradient(circle,rgba(140,140,140,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Venus"]::before{
+  background:radial-gradient(circle,rgba(230,200,122,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Earth"]::before{
+  background:radial-gradient(circle,rgba(107,147,214,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Mars"]::before{
+  background:radial-gradient(circle,rgba(193,68,14,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Jupiter"]::before{
+  background:radial-gradient(circle,rgba(216,202,157,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Saturn"]::before{
+  background:radial-gradient(circle,rgba(234,214,184,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Uranus"]::before{
+  background:radial-gradient(circle,rgba(209,231,231,0.4),transparent 70%);
+}
+
+.content-section[data-zone="Neptune"]::before{
+  background:radial-gradient(circle,rgba(91,93,223,0.4),transparent 70%);
+}
+@keyframes blackholePulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}
+  50%{transform:translate(-50%,-50%) scale(1.05) rotate(180deg)}
+}
+@keyframes eventHorizonPulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.9}
+  50%{transform:translate(-50%,-50%) scale(1.1);opacity:1}
+}
+
 .scroll-progress{position:fixed;top:0;left:0;width:100%;height:3px;z-index:1001;background:rgba(201,169,110,0.1)}
 .scroll-progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));box-shadow:0 0 20px var(--gold)}
 
@@ -312,7 +397,7 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
 
 <div class="space-journey">
 
-  <section class="content-section" id="hero" data-zone="origin" data-direction="0" data-effect="ambient-stars">
+  <section class="content-section" id="hero" data-zone="Sun" data-direction="0" data-effect="ambient-stars">
     <div class="hero-glow"></div>
     <div class="hero-eyebrow parallax-layer">Global Tech Partner for Scale</div>
     <h1 class="hero-title parallax-layer">
@@ -328,8 +413,8 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
    
   </section>
 
-  <div class="transition-zone" data-effect="shooting-burst" data-zone="departure" data-direction="45">
-    <div class="zone-label">Departing Origin</div>
+  <div class="transition-zone" data-effect="shooting-burst" data-zone="Mercury" data-direction="45">
+    <div class="zone-label">Departing Sun</div>
   </div>
 
   <div class="marquee-strip">
@@ -353,7 +438,7 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </div>
 
-  <section class="content-section" id="about" data-zone="nebula-alpha" data-direction="90" data-effect="aurora">
+  <section class="content-section" id="about" data-zone="Mercury" data-direction="90" data-effect="aurora">
     <div class="section-inner">
       <div class="about-grid">
         <div>
@@ -374,11 +459,11 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </section>
 
-  <div class="transition-zone" data-effect="comet-shower" data-zone="asteroid-belt" data-direction="180">
-    <div class="zone-label">Entering Asteroid Belt</div>
+  <div class="transition-zone" data-effect="comet-shower" data-zone="Venus" data-direction="180">
+    <div class="zone-label">Approaching Venus</div>
   </div>
 
-  <section class="content-section" id="services" data-zone="asteroid-field" data-direction="225" data-effect="debris">
+  <section class="content-section" id="services" data-zone="Venus" data-direction="225" data-effect="debris">
     <div class="section-inner">
       <div class="services-header">
         <div>
@@ -399,11 +484,11 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </section>
 
-  <div class="transition-zone" data-effect="warp-speed" data-zone="open-space" data-direction="315">
-    <div class="zone-label">Warp Speed Engaged</div>
+  <div class="transition-zone" data-effect="warp-speed" data-zone="Earth" data-direction="315">
+    <div class="zone-label">Approaching Earth</div>
   </div>
 
-  <section class="content-section" id="presence" data-zone="star-cluster" data-direction="0" data-effect="nebula-clouds">
+  <section class="content-section" id="presence" data-zone="Earth" data-direction="0" data-effect="nebula-clouds">
     <div class="section-inner">
       <div class="presence-inner">
         <div style="max-width:700px;margin:0 auto 60px">
@@ -424,11 +509,11 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </section>
 
-  <div class="transition-zone" data-effect="random-shooting" data-zone="nebula-crossing" data-direction="135">
-    <div class="zone-label">Crossing the Nebula</div>
+  <div class="transition-zone" data-effect="random-shooting" data-zone="Mars" data-direction="135">
+    <div class="zone-label">Approaching Mars</div>
   </div>
 
-  <section class="content-section" id="team" data-zone="constellation" data-direction="270" data-effect="shooting-random">
+  <section class="content-section" id="team" data-zone="Mars" data-direction="270" data-effect="shooting-random">
     <div class="section-inner">
       <div class="team-header">
         <div>
@@ -449,11 +534,11 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </section>
 
-  <div class="transition-zone" data-effect="comet-burst" data-zone="binary-system" data-direction="60">
-    <div class="zone-label">Approaching Binary System</div>
+  <div class="transition-zone" data-effect="comet-burst" data-zone="Jupiter" data-direction="60">
+    <div class="zone-label">Approaching Jupiter</div>
   </div>
 
-  <section class="content-section" id="clients" data-zone="galactic-core" data-direction="330" data-effect="aurora">
+  <section class="content-section" id="clients" data-zone="Jupiter" data-direction="330" data-effect="aurora">
     <div class="section-inner">
       <div class="clients-inner">
         <span class="section-label content-el from-top">Trusted By</span>
@@ -477,11 +562,33 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
     </div>
   </section>
 
-  <div class="transition-zone" data-effect="warp-arrival" data-zone="event-horizon" data-direction="180">
-    <div class="zone-label">Approaching Destination</div>
+  <div class="transition-zone" data-effect="warp-arrival" data-zone="Saturn" data-direction="180">
+    <div class="zone-label">Approaching Saturn</div>
   </div>
 
-  <section class="content-section" id="contact" data-zone="destination" data-direction="0" data-effect="ambient-glow">
+  <section class="content-section" id="saturn" data-zone="Saturn" data-direction="180" data-effect="aurora">
+    <div class="section-inner">
+      <div style="max-width:700px;margin:0 auto">
+        <span class="section-label content-el from-scale" style="display:block">Saturn Achievement</span>
+        <span class="gold-line content-el from-scale" style="margin:0 auto 32px"></span>
+        <h2 class="section-heading content-el from-scale">Ring of <em>Excellence</em></h2>
+        <p class="section-text content-el from-bottom" style="max-width:560px;margin:0 auto">Like Saturn's magnificent rings, our achievements form a perfect circle of excellence around our core values. Each ring represents a different aspect of our commitment to delivering exceptional results.</p>
+        <p class="section-text content-el from-bottom" style="max-width:560px;margin:20px auto">Our comprehensive service portfolio orbits around client success, creating a gravitational pull that attracts innovation and drives measurable growth across all industries we serve.</p>
+        <div class="stats-grid" style="margin-top:40px">
+          <div class="stat-box content-el from-left"><div class="stat-num">500+</div><div class="stat-lbl">Global Projects</div></div>
+          <div class="stat-box content-el from-right"><div class="stat-num">8+</div><div class="stat-lbl">Years Excellence</div></div>
+          <div class="stat-box content-el from-left"><div class="stat-num">99%</div><div class="stat-lbl">Success Rate</div></div>
+          <div class="stat-box content-el from-right"><div class="stat-num">50+</div><div class="stat-lbl">Expert Team</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="transition-zone" data-effect="" data-zone="Uranus" data-direction="270">
+    <div class="zone-label">Approaching Uranus</div>
+  </div>
+
+  <section class="content-section" id="contact" data-zone="Neptune" data-direction="0" data-effect="ambient-glow">
     <div class="section-inner">
       <span class="section-label content-el from-scale" style="display:block;margin-bottom:12px">Let&apos;s Talk</span>
       <span class="gold-line content-el from-scale"></span>
@@ -524,370 +631,6 @@ footer{background:rgba(3,3,8,0.9);backdrop-filter:blur(8px);border-top:1px solid
 </footer>
 
 <script>
-(function(){
-  var canvas=document.getElementById('bg-canvas');
-  var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setClearColor(0x030308,1);
-
-  var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,10000);
-  camera.position.set(0,0,800);
-
-  var currentDirection={x:0,y:0,z:1};
-  var targetDirection={x:0,y:0,z:1};
-  var cameraRotation={x:0,y:0,z:0};
-  var targetCameraRotation={x:0,y:0,z:0};
-
-  // Enhanced star field with multiple layers
-  function createStarField(count,spread,size,color,twinkleSpeed){
-    var geo=new THREE.BufferGeometry();
-    var pos=new Float32Array(count*3);
-    var basePos=new Float32Array(count*3);
-    var sizes=new Float32Array(count);
-    var phases=new Float32Array(count);
-    for(var i=0;i<count;i++){
-      var x=(Math.random()-0.5)*spread;
-      var y=(Math.random()-0.5)*spread;
-      var z=(Math.random()-0.5)*spread*2;
-      pos[i*3]=x;pos[i*3+1]=y;pos[i*3+2]=z;
-      basePos[i*3]=x;basePos[i*3+1]=y;basePos[i*3+2]=z;
-      sizes[i]=Math.random()*size+0.5;
-      phases[i]=Math.random()*6.28;
-    }
-    geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    geo.setAttribute('basePosition',new THREE.BufferAttribute(basePos,3));
-    geo.setAttribute('size',new THREE.BufferAttribute(sizes,1));
-    geo.setAttribute('phase',new THREE.BufferAttribute(phases,1));
-
-    var mat=new THREE.ShaderMaterial({
-      transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-      uniforms:{
-        time:{value:0},
-        direction:{value:new THREE.Vector3(0,0,1)},
-        scrollProgress:{value:0},
-        scrollSpeed:{value:0},
-        color:{value:new THREE.Color(color)},
-        twinkleSpeed:{value:twinkleSpeed}
-      },
-      vertexShader:`
-        attribute float size;
-        attribute float phase;
-        attribute vec3 basePosition;
-        uniform float time;
-        uniform vec3 direction;
-        uniform float scrollProgress;
-        uniform float scrollSpeed;
-        uniform float twinkleSpeed;
-        varying float vAlpha;
-        varying float vStretch;
-        
-        void main(){
-          vec3 p=basePosition;
-          float movement=scrollProgress*3000.0;
-          p+=direction*movement;
-          
-          float spread=5000.0;
-          p.x=mod(p.x+spread,spread*2.0)-spread;
-          p.y=mod(p.y+spread,spread*2.0)-spread;
-          p.z=mod(p.z+spread*2.0,spread*4.0)-spread*2.0;
-          
-          vec4 mv=modelViewMatrix*vec4(p,1.0);
-          vStretch=min(abs(scrollSpeed)*0.2,10.0);
-          gl_PointSize=(size+vStretch)*(700.0/-mv.z);
-          gl_Position=projectionMatrix*mv;
-          
-          float depthAlpha=clamp(1.0-(-mv.z/5000.0),0.1,1.0);
-          vAlpha=depthAlpha*(0.5+0.5*sin(time*twinkleSpeed+phase));
-        }`,
-      fragmentShader:`
-        uniform vec3 color;
-        varying float vAlpha;
-        varying float vStretch;
-        void main(){
-          vec2 c=gl_PointCoord-0.5;
-          c.y/=(1.0+vStretch*0.5);
-          float a=(1.0-smoothstep(0.0,0.5,length(c)))*vAlpha;
-          gl_FragColor=vec4(color,a);
-        }`
-    });
-    return{pts:new THREE.Points(geo,mat),mat:mat,geo:geo};
-  }
-
-  // Create multiple star layers for depth
-  var stars1=createStarField(8000,5000,4,0xffffff,2.5);
-  var stars2=createStarField(4000,4500,5,0xc9a96e,2.0);
-  var stars3=createStarField(3500,4000,3,0x8899ff,3.0);
-  var stars4=createStarField(2000,6000,2,0xffddaa,1.5);
-  var stars5=createStarField(1500,3000,6,0xffffff,1.8);
-  scene.add(stars1.pts);scene.add(stars2.pts);scene.add(stars3.pts);scene.add(stars4.pts);scene.add(stars5.pts);
-
-  // Deep space nebula clouds
-  var nebulaCount=300;
-  var nebulaGeo=new THREE.BufferGeometry();
-  var nebulaPos=new Float32Array(nebulaCount*3);
-  var nebulaSizes=new Float32Array(nebulaCount);
-  var nebulaColors=new Float32Array(nebulaCount*3);
-  for(var i=0;i<nebulaCount;i++){
-    nebulaPos[i*3]=(Math.random()-0.5)*5000;
-    nebulaPos[i*3+1]=(Math.random()-0.5)*3500;
-    nebulaPos[i*3+2]=(Math.random()-0.5)*6000;
-    nebulaSizes[i]=Math.random()*250+80;
-    var colorChoice=Math.random();
-    if(colorChoice<0.3){nebulaColors[i*3]=0.79;nebulaColors[i*3+1]=0.66;nebulaColors[i*3+2]=0.43;}
-    else if(colorChoice<0.55){nebulaColors[i*3]=0.45;nebulaColors[i*3+1]=0.35;nebulaColors[i*3+2]=0.65;}
-    else if(colorChoice<0.8){nebulaColors[i*3]=0.35;nebulaColors[i*3+1]=0.55;nebulaColors[i*3+2]=0.75;}
-    else{nebulaColors[i*3]=0.6;nebulaColors[i*3+1]=0.3;nebulaColors[i*3+2]=0.5;}
-  }
-  nebulaGeo.setAttribute('position',new THREE.BufferAttribute(nebulaPos,3));
-  nebulaGeo.setAttribute('size',new THREE.BufferAttribute(nebulaSizes,1));
-  nebulaGeo.setAttribute('color',new THREE.BufferAttribute(nebulaColors,3));
-
-  var nebulaMat=new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    uniforms:{time:{value:0},direction:{value:new THREE.Vector3(0,0,1)},scrollProgress:{value:0}},
-    vertexShader:`
-      attribute float size;
-      attribute vec3 color;
-      uniform float time;
-      uniform vec3 direction;
-      uniform float scrollProgress;
-      varying float vAlpha;
-      varying vec3 vColor;
-      void main(){
-        vec3 p=position;
-        float movement=scrollProgress*2000.0;
-        p+=direction*movement;
-        p.x=mod(p.x+2500.0,5000.0)-2500.0;
-        p.y=mod(p.y+1750.0,3500.0)-1750.0;
-        p.z=mod(p.z+3000.0,6000.0)-3000.0;
-        p.x+=sin(time*0.1+p.y*0.0008)*80.0;
-        p.y+=cos(time*0.08+p.x*0.0008)*60.0;
-        vec4 mv=modelViewMatrix*vec4(p,1.0);
-        gl_PointSize=size*(600.0/-mv.z);
-        gl_Position=projectionMatrix*mv;
-        vAlpha=clamp(0.22-(-mv.z/5000.0)*0.12,0.03,0.22);
-        vColor=color;
-      }`,
-    fragmentShader:`
-      varying float vAlpha;
-      varying vec3 vColor;
-      void main(){
-        float a=(1.0-smoothstep(0.0,0.5,length(gl_PointCoord-0.5)))*vAlpha;
-        gl_FragColor=vec4(vColor,a);
-      }`
-  });
-  scene.add(new THREE.Points(nebulaGeo,nebulaMat));
-
-  // Cosmic dust particles
-  var dustCount=1500;
-  var dustGeo=new THREE.BufferGeometry();
-  var dustPos=new Float32Array(dustCount*3);
-  var dustVel=new Float32Array(dustCount);
-  for(var i=0;i<dustCount;i++){
-    dustPos[i*3]=(Math.random()-0.5)*2500;
-    dustPos[i*3+1]=(Math.random()-0.5)*2500;
-    dustPos[i*3+2]=(Math.random()-0.5)*4000;
-    dustVel[i]=Math.random()*2.5+0.5;
-  }
-  dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));
-  dustGeo.setAttribute('velocity',new THREE.BufferAttribute(dustVel,1));
-
-  var dustMat=new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    uniforms:{time:{value:0},direction:{value:new THREE.Vector3(0,0,1)},scrollProgress:{value:0},scrollSpeed:{value:0}},
-    vertexShader:`
-      attribute float velocity;
-      uniform float time;
-      uniform vec3 direction;
-      uniform float scrollProgress;
-      uniform float scrollSpeed;
-      varying float vAlpha;
-      varying float vStretch;
-      void main(){
-        vec3 p=position;
-        float movement=scrollProgress*3500.0*velocity;
-        p+=direction*movement;
-        p.x=mod(p.x+1250.0,2500.0)-1250.0;
-        p.y=mod(p.y+1250.0,2500.0)-1250.0;
-        p.z=mod(p.z+2000.0,4000.0)-2000.0;
-        vec4 mv=modelViewMatrix*vec4(p,1.0);
-        vStretch=min(abs(scrollSpeed)*0.3,20.0);
-        gl_PointSize=(3.0+vStretch)*(400.0/-mv.z);
-        gl_Position=projectionMatrix*mv;
-        vAlpha=clamp(0.8-(-mv.z/2000.0)*0.5,0.15,0.8);
-      }`,
-    fragmentShader:`
-      varying float vAlpha;
-      varying float vStretch;
-      void main(){
-        vec2 c=gl_PointCoord-0.5;
-        c.y/=(1.0+vStretch*0.7);
-        float a=(1.0-smoothstep(0.0,0.5,length(c)))*vAlpha;
-        gl_FragColor=vec4(1.0,0.95,0.88,a);
-      }`
-  });
-  scene.add(new THREE.Points(dustGeo,dustMat));
-
-  // Distant planets and celestial objects
-  var planet1=new THREE.Mesh(
-    new THREE.SphereGeometry(150,48,48),
-    new THREE.MeshBasicMaterial({color:0x1a1a3a,transparent:true,opacity:0.9})
-  );
-  planet1.position.set(800,350,-3000);
-  scene.add(planet1);
-
-  var ring1=new THREE.Mesh(
-    new THREE.RingGeometry(200,280,64),
-    new THREE.MeshBasicMaterial({color:0xc9a96e,transparent:true,opacity:0.15,side:THREE.DoubleSide})
-  );
-  ring1.position.copy(planet1.position);
-  ring1.rotation.x=Math.PI/2.5;
-  scene.add(ring1);
-
-  var planet2=new THREE.Mesh(
-    new THREE.SphereGeometry(100,32,32),
-    new THREE.MeshBasicMaterial({color:0x2a1a40,transparent:true,opacity:0.7})
-  );
-  planet2.position.set(-900,-350,-3500);
-  scene.add(planet2);
-
-  var planet3=new THREE.Mesh(
-    new THREE.SphereGeometry(60,32,32),
-    new THREE.MeshBasicMaterial({color:0x3a2a20,transparent:true,opacity:0.6})
-  );
-  planet3.position.set(-500,500,-2800);
-  scene.add(planet3);
-
-  var moon=new THREE.Mesh(
-    new THREE.SphereGeometry(40,24,24),
-    new THREE.MeshBasicMaterial({color:0x555566,transparent:true,opacity:0.7})
-  );
-  moon.position.set(900,500,-2500);
-  scene.add(moon);
-
-  // Distant galaxy spiral
-  var galaxyGeo=new THREE.BufferGeometry();
-  var galaxyCount=2000;
-  var galaxyPos=new Float32Array(galaxyCount*3);
-  var galaxySizes=new Float32Array(galaxyCount);
-  for(var i=0;i<galaxyCount;i++){
-    var angle=i*0.1;
-    var radius=50+i*0.15;
-    var spiral=(i/galaxyCount)*6;
-    galaxyPos[i*3]=Math.cos(angle+spiral)*radius-1200;
-    galaxyPos[i*3+1]=Math.sin(angle+spiral)*radius+(Math.random()-0.5)*30+200;
-    galaxyPos[i*3+2]=-4500+(Math.random()-0.5)*100;
-    galaxySizes[i]=Math.random()*2+0.5;
-  }
-  galaxyGeo.setAttribute('position',new THREE.BufferAttribute(galaxyPos,3));
-  galaxyGeo.setAttribute('size',new THREE.BufferAttribute(galaxySizes,1));
-
-  var galaxyMat=new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    uniforms:{time:{value:0}},
-    vertexShader:`
-      attribute float size;
-      uniform float time;
-      varying float vAlpha;
-      void main(){
-        vec4 mv=modelViewMatrix*vec4(position,1.0);
-        gl_PointSize=size*(300.0/-mv.z);
-        gl_Position=projectionMatrix*mv;
-        vAlpha=0.4+0.3*sin(time*2.0+position.x*0.01);
-      }`,
-    fragmentShader:`
-      varying float vAlpha;
-      void main(){
-        float a=(1.0-smoothstep(0.0,0.5,length(gl_PointCoord-0.5)))*vAlpha;
-        gl_FragColor=vec4(0.9,0.8,0.95,a);
-      }`
-  });
-  scene.add(new THREE.Points(galaxyGeo,galaxyMat));
-
-  scene.fog=new THREE.FogExp2(0x030308,0.00008);
-
-  var mx=0,my=0,lastScroll=0,scrollSpeed=0,smoothScrollSpeed=0,scrollProgress=0;
-  document.addEventListener('mousemove',function(e){
-    mx=(e.clientX/window.innerWidth-0.5)*2;
-    my=(e.clientY/window.innerHeight-0.5)*2;
-  });
-
-  var clock=0;
-  function animate(){
-    clock+=0.006;
-    var currentScroll=window.scrollY;
-    var maxScroll=document.body.scrollHeight-window.innerHeight;
-    scrollProgress=currentScroll/maxScroll;
-    scrollSpeed=currentScroll-lastScroll;
-    smoothScrollSpeed+=(scrollSpeed-smoothScrollSpeed)*0.06;
-    lastScroll=currentScroll;
-
-    currentDirection.x+=(targetDirection.x-currentDirection.x)*0.015;
-    currentDirection.y+=(targetDirection.y-currentDirection.y)*0.015;
-    currentDirection.z+=(targetDirection.z-currentDirection.z)*0.015;
-
-    cameraRotation.x+=(targetCameraRotation.x-cameraRotation.x)*0.01;
-    cameraRotation.y+=(targetCameraRotation.y-cameraRotation.y)*0.01;
-    cameraRotation.z+=(targetCameraRotation.z-cameraRotation.z)*0.01;
-
-    var dirVec=new THREE.Vector3(currentDirection.x,currentDirection.y,currentDirection.z);
-    [stars1,stars2,stars3,stars4,stars5].forEach(function(s){
-      s.mat.uniforms.time.value=clock;
-      s.mat.uniforms.direction.value=dirVec;
-      s.mat.uniforms.scrollProgress.value=scrollProgress;
-      s.mat.uniforms.scrollSpeed.value=smoothScrollSpeed;
-    });
-
-    nebulaMat.uniforms.time.value=clock;
-    nebulaMat.uniforms.direction.value=dirVec;
-    nebulaMat.uniforms.scrollProgress.value=scrollProgress;
-
-    dustMat.uniforms.time.value=clock;
-    dustMat.uniforms.direction.value=dirVec;
-    dustMat.uniforms.scrollProgress.value=scrollProgress;
-    dustMat.uniforms.scrollSpeed.value=smoothScrollSpeed;
-
-    galaxyMat.uniforms.time.value=clock;
-
-    ring1.rotation.z+=0.0015;
-    planet1.rotation.y+=0.001;
-    planet2.rotation.y-=0.0008;
-    planet3.rotation.y+=0.0012;
-    moon.position.x=900+Math.sin(clock*0.3)*50;
-    moon.position.y=500+Math.cos(clock*0.2)*30;
-
-    camera.position.x+=(mx*100-camera.position.x)*0.02;
-    camera.position.y+=(-my*60-camera.position.y)*0.02;
-    
-    camera.rotation.x=cameraRotation.x+my*0.04;
-    camera.rotation.y=cameraRotation.y+mx*0.06;
-    camera.rotation.z=cameraRotation.z+mx*0.025;
-
-    renderer.render(scene,camera);
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  window.addEventListener('resize',function(){
-    camera.aspect=window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth,window.innerHeight);
-  });
-
-  window.setSpaceDirection=function(angle){
-    var rad=angle*Math.PI/180;
-    targetDirection.x=Math.sin(rad)*0.8;
-    targetDirection.y=Math.cos(rad)*0.4;
-    targetDirection.z=Math.cos(rad);
-    
-    targetCameraRotation.y=rad*0.12;
-    targetCameraRotation.x=Math.sin(rad)*0.08;
-    targetCameraRotation.z=Math.cos(rad)*0.04;
-  };
-})();
-
 // Enhanced Effects Manager with varied, random effects
 var EffectsManager={
   shootingStarsContainer:document.getElementById('shooting-stars'),
@@ -1099,6 +842,13 @@ var EffectsManager={
         },600);
         break;
         
+      case 'blackhole-vortex':
+        this.createBlackhole();
+        this.effectIntervals[effectType]=setInterval(function(){
+          self.updateBlackhole();
+        },50);
+        break;
+        
       case 'comet-burst':
         this.effectIntervals[effectType]=setInterval(function(){
           self.createComet();
@@ -1226,6 +976,7 @@ var EffectsManager={
     gsap.to(this.nebulaClouds,{opacity:0,duration:0.8});
     gsap.to(this.debrisField,{opacity:0,duration:0.8});
     gsap.to(this.warpLines,{opacity:0,duration:0.8});
+    this.stopBlackhole();
   },
   
   setDirection:function(angle){
@@ -1239,6 +990,83 @@ var EffectsManager={
       self.zoneName.textContent=name;
       gsap.to(self.zoneName,{opacity:0.4,duration:0.6});
     }});
+  },
+  
+  createBlackhole:function(){
+    var self=this;
+    this.blackhole=document.createElement('div');
+    this.blackhole.className='blackhole-vortex';
+    this.blackhole.style.cssText='position:fixed;width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:2';
+    document.body.appendChild(this.blackhole);
+    
+    this.blackholeTime=0;
+    this.blackholeParticles=[];
+    
+    // Create vortex particles
+    for(var i=0;i<50;i++){
+      var particle=document.createElement('div');
+      particle.className='blackhole-particle';
+      particle.style.cssText='position:absolute;width:4px;height:4px;background:radial-gradient(circle,var(--gold),rgba(201,169,110,0.3));border-radius:50%;box-shadow:0 0 10px var(--gold)';
+      this.blackhole.appendChild(particle);
+      this.blackholeParticles.push({
+        element:particle,
+        angle:(i/50)*Math.PI*2,
+        radius:50+Math.random()*100,
+        speed:0.5+Math.random()*1.5,
+        size:2+Math.random()*4
+      });
+    }
+    
+    // Create event horizon
+    var eventHorizon=document.createElement('div');
+    eventHorizon.className='event-horizon';
+    eventHorizon.style.cssText='position:absolute;width:80px;height:80px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(0,0,0,0.9),transparent 70%);border-radius:50%;box-shadow:inset 0 0 30px rgba(201,169,110,0.5)';
+    this.blackhole.appendChild(eventHorizon);
+    
+    gsap.to(this.blackhole,{scale:1,opacity:1,duration:1,ease:'power2.inOut'});
+  },
+  
+  updateBlackhole:function(){
+    if(!this.blackhole)return;
+    
+    this.blackholeTime+=0.02;
+    var centerX=150;
+    var centerY=150;
+    
+    this.blackholeParticles.forEach(function(particle,i){
+      particle.angle+=particle.speed*0.02;
+      particle.radius-=0.5;
+      
+      if(particle.radius<5){
+        particle.radius=120+Math.random()*50;
+        particle.angle=Math.random()*Math.PI*2;
+      }
+      
+      var x=centerX+Math.cos(particle.angle)*particle.radius;
+      var y=centerY+Math.sin(particle.angle)*particle.radius;
+      
+      particle.element.style.left=x+'px';
+      particle.element.style.top=y+'px';
+      particle.element.style.width=particle.size+'px';
+      particle.element.style.height=particle.size+'px';
+      particle.element.style.opacity=1-(particle.radius/120);
+    });
+    
+    // Rotate blackhole itself
+    gsap.to(this.blackhole,{rotation:'+=1',duration:0.05,ease:'none'});
+  },
+  
+  stopBlackhole:function(){
+    var self=this;
+    if(this.blackhole){
+      gsap.to(this.blackhole,{scale:0,opacity:0,duration:0.8,onComplete:function(){
+        if(self.blackhole && self.blackhole.parentNode){
+          self.blackhole.parentNode.removeChild(self.blackhole);
+        }
+        self.blackhole=null;
+        self.blackholeParticles=[];
+      }});
+    }
   }
 };
 
@@ -1311,6 +1139,494 @@ var EffectsManager={
 
 function initPage(){
   EffectsManager.init();
+  
+  // Initialize Three.js scene with simplified setup
+  (function(){
+    try {
+      var canvas=document.getElementById('bg-canvas');
+      var renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      renderer.setSize(window.innerWidth,window.innerHeight);
+      renderer.setClearColor(0x030308,1);
+
+      var scene=new THREE.Scene();
+      var camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,10000);
+      camera.position.set(0,0,800);
+
+      // Simple star field
+      function createStarField(count,spread,size,color){
+        var geo=new THREE.BufferGeometry();
+        var pos=new Float32Array(count*3);
+        var sizes=new Float32Array(count);
+        for(var i=0;i<count;i++){
+          var x=(Math.random()-0.5)*spread;
+          var y=(Math.random()-0.5)*spread;
+          var z=(Math.random()-0.5)*spread*2;
+          pos[i*3]=x;pos[i*3+1]=y;pos[i*3+2]=z;
+          sizes[i]=Math.random()*size+0.5;
+        }
+        geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+        geo.setAttribute('size',new THREE.BufferAttribute(sizes,1));
+
+        var mat=new THREE.PointsMaterial({
+          color:color,
+          size:size,
+          transparent:true,
+          opacity:0.8,
+          sizeAttenuation:true
+        });
+
+        return new THREE.Points(geo,mat);
+      }
+
+      // Create star layers
+      var stars1=createStarField(3000,5000,2,0xffffff);
+      var stars2=createStarField(2000,4500,3,0xc9a96e);
+      var stars3=createStarField(1500,4000,2,0x8899ff);
+      scene.add(stars1);
+      scene.add(stars2);
+      scene.add(stars3);
+
+      // Solar System Setup
+      var solarSystemGroup = new THREE.Group();
+      var planets = [];
+      var orbitalPaths = [];
+
+      // Enhanced Sun with realistic effects
+      var sunGeometry = new THREE.SphereGeometry(80, 64, 64);
+      var sunMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffdd44,
+        transparent: true,
+        opacity: 0.9
+      });
+      var sun = new THREE.Mesh(sunGeometry, sunMaterial);
+      solarSystemGroup.add(sun);
+
+      // Sun corona effect
+      var coronaGeometry = new THREE.SphereGeometry(120, 32, 32);
+      var coronaMaterial = new THREE.MeshBasicMaterial({
+        color: 0xff8800,
+        transparent: true,
+        opacity: 0.2,
+        side: THREE.BackSide
+      });
+      var corona = new THREE.Mesh(coronaGeometry, coronaMaterial);
+      solarSystemGroup.add(corona);
+
+      // Solar flares
+      var solarFlares = [];
+      for (var i = 0; i < 8; i++) {
+        var flareGeometry = new THREE.ConeGeometry(5, 20, 0, false, 0, 360);
+        var flareMaterial = new THREE.MeshBasicMaterial({
+          color: 0xffff00,
+          transparent: true,
+          opacity: 0.6
+        });
+        var flare = new THREE.Mesh(flareGeometry, flareMaterial);
+        
+        var angle = (Math.PI * 2 / 8) * i;
+        var distance = 90 + Math.random() * 20;
+        flare.position.set(
+          Math.cos(angle) * distance,
+          Math.sin(angle) * distance,
+          0
+        );
+        flare.rotation.z = Math.random() * Math.PI;
+        flare.userData = {
+          angle: angle,
+          distance: distance,
+          speed: 0.01 + Math.random() * 0.02,
+          intensity: 0.3 + Math.random() * 0.7
+        };
+        
+        solarFlares.push(flare);
+        solarSystemGroup.add(flare);
+      }
+
+      // Sun glow effect
+      var sunGlowGeometry = new THREE.SphereGeometry(100, 32, 32);
+      var sunGlowMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffaa00,
+        transparent: true,
+        opacity: 0.3
+      });
+      var sunGlow = new THREE.Mesh(sunGlowGeometry, sunGlowMaterial);
+      solarSystemGroup.add(sunGlow);
+
+      // Planet data with realistic relative sizes and orbital distances (scaled)
+      var planetData = [
+        { name: 'Mercury', radius: 8, orbitRadius: 150, color: 0x8c8c8c, speed: 0.04 },
+        { name: 'Venus', radius: 12, orbitRadius: 220, color: 0xe6c87a, speed: 0.03 },
+        { name: 'Earth', radius: 13, orbitRadius: 300, color: 0x6b93d6, speed: 0.025 },
+        { name: 'Mars', radius: 10, orbitRadius: 400, color: 0xc1440e, speed: 0.02 },
+        { name: 'Jupiter', radius: 35, orbitRadius: 600, color: 0xd8ca9d, speed: 0.01 },
+        { name: 'Saturn', radius: 30, orbitRadius: 800, color: 0xead6b8, speed: 0.008, hasRings: true },
+        { name: 'Uranus', radius: 20, orbitRadius: 1000, color: 0xd1e7e7, speed: 0.006 },
+        { name: 'Neptune', radius: 19, orbitRadius: 1200, color: 0x5b5ddf, speed: 0.005 }
+      ];
+
+      // Create planets and orbital paths
+      planetData.forEach(function(data, index) {
+        // Orbital path
+        var pathGeometry = new THREE.RingGeometry(data.orbitRadius - 0.5, data.orbitRadius + 0.5, 128);
+        var pathMaterial = new THREE.MeshBasicMaterial({
+          color: 0x444466,
+          transparent: true,
+          opacity: 0.3,
+          side: THREE.DoubleSide
+        });
+        var path = new THREE.Mesh(pathGeometry, pathMaterial);
+        path.rotation.x = Math.PI / 2;
+        solarSystemGroup.add(path);
+        orbitalPaths.push(path);
+
+        // Planet
+        var planetGeometry = new THREE.SphereGeometry(data.radius, 32, 32);
+        var planetMaterial = new THREE.MeshBasicMaterial({
+          color: data.color,
+          transparent: true,
+          opacity: 0.9
+        });
+        var planet = new THREE.Mesh(planetGeometry, planetMaterial);
+        
+        // Initial position
+        var angle = Math.random() * Math.PI * 2;
+        planet.position.set(
+          Math.cos(angle) * data.orbitRadius,
+          0,
+          Math.sin(angle) * data.orbitRadius
+        );
+        
+        planet.userData = {
+          orbitRadius: data.orbitRadius,
+          angle: angle,
+          speed: data.speed,
+          name: data.name
+        };
+        
+        planets.push(planet);
+        solarSystemGroup.add(planet);
+
+        // Saturn's rings
+        if (data.hasRings) {
+          var ringGeometry = new THREE.RingGeometry(data.radius + 10, data.radius + 25, 64);
+          var ringMaterial = new THREE.MeshBasicMaterial({
+            color: 0xc9a96e,
+            transparent: true,
+            opacity: 0.5,
+            side: THREE.DoubleSide
+          });
+          var saturnRing = new THREE.Mesh(ringGeometry, ringMaterial);
+          saturnRing.rotation.x = Math.PI / 2.5;
+          planet.add(saturnRing);
+        }
+
+        // Moon for Earth
+        if (data.name === 'Earth') {
+          var moonGeometry = new THREE.SphereGeometry(3, 16, 16);
+          var moonMaterial = new THREE.MeshBasicMaterial({
+            color: 0xaaaaaa,
+            transparent: true,
+            opacity: 0.8
+          });
+          var moon = new THREE.Mesh(moonGeometry, moonMaterial);
+          moon.userData = {
+            orbitRadius: 25,
+            angle: 0,
+            speed: 0.05
+          };
+          planet.add(moon);
+          planet.userData.moon = moon;
+        }
+      });
+
+      // Asteroid belt between Mars and Jupiter
+      var asteroidBeltGroup = new THREE.Group();
+      for (var a = 0; a < 200; a++) {
+        var asteroidGeometry = new THREE.IcosahedronGeometry(1 + Math.random() * 2, 0);
+        var asteroidMaterial = new THREE.MeshBasicMaterial({
+          color: 0x666666,
+          transparent: true,
+          opacity: 0.7
+        });
+        var asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+        
+        var angle = Math.random() * Math.PI * 2;
+        var radius = 480 + Math.random() * 40; // Between Mars (400) and Jupiter (600)
+        
+        asteroid.position.set(
+          Math.cos(angle) * radius,
+          (Math.random() - 0.5) * 20,
+          Math.sin(angle) * radius
+        );
+        
+        asteroid.userData = {
+          angle: angle,
+          radius: radius,
+          speed: 0.01 + Math.random() * 0.01
+        };
+        
+        asteroidBeltGroup.add(asteroid);
+      }
+      solarSystemGroup.add(asteroidBeltGroup);
+
+      scene.add(solarSystemGroup);
+
+      // Create realistic satellite constellation
+      var satelliteGroup = new THREE.Group();
+      var satellites = [];
+      
+      // Create multiple satellites with different orbits
+      for (var i = 0; i < 12; i++) {
+        var satelliteGeometry = new THREE.BoxGeometry(2, 1, 0.5);
+        var satelliteMaterial = new THREE.MeshBasicMaterial({
+          color: 0x8899ff,
+          transparent: true,
+          opacity: 0.8
+        });
+        var satellite = new THREE.Mesh(satelliteGeometry, satelliteMaterial);
+        
+        // Random orbital parameters
+        var orbitRadius = 1500 + Math.random() * 1000;
+        var orbitSpeed = 0.0001 + Math.random() * 0.0003;
+        var orbitTilt = Math.random() * Math.PI * 0.3;
+        var orbitPhase = Math.random() * Math.PI * 2;
+        
+        satellite.userData = {
+          orbitRadius: orbitRadius,
+          orbitSpeed: orbitSpeed,
+          orbitTilt: orbitTilt,
+          orbitPhase: orbitPhase,
+          angle: orbitPhase,
+          signalPhase: Math.random() * Math.PI * 2,
+          trailPositions: []
+        };
+        
+        // Add solar panels
+        var panelGeometry = new THREE.PlaneGeometry(4, 2);
+        var panelMaterial = new THREE.MeshBasicMaterial({
+          color: 0x4488ff,
+          side: THREE.DoubleSide
+        });
+        var panel1 = new THREE.Mesh(panelGeometry, panelMaterial);
+        panel1.rotation.x = Math.PI / 2;
+        panel1.position.set(2, 0, 0);
+        satellite.add(panel1);
+        
+        var panel2 = new THREE.Mesh(panelGeometry, panelMaterial);
+        panel2.rotation.x = Math.PI / 2;
+        panel2.position.set(-2, 0, 0);
+        satellite.add(panel2);
+        
+        satellites.push(satellite);
+        satelliteGroup.add(satellite);
+      }
+      
+      scene.add(satelliteGroup);
+
+      scene.fog=new THREE.FogExp2(0x030308,0.0001);
+
+      var mx=0,my=0;
+      document.addEventListener('mousemove',function(e){
+        mx=(e.clientX/window.innerWidth-0.5)*2;
+        my=(e.clientY/window.innerHeight-0.5)*2;
+      });
+
+      // Spaceship camera system - smooth continuous motion
+      var scrollProgress = 0;
+      var smoothScrollProgress = 0;
+      var cameraPosition = new THREE.Vector3(400, 150, 0);
+      var targetCameraPosition = new THREE.Vector3(400, 150, 0);
+      var cameraLookAt = new THREE.Vector3(0, 0, 0);
+      var targetCameraLookAt = new THREE.Vector3(0, 0, 0);
+      var currentPlanet = null;
+      var orbitalMomentum = 0;
+      var baseOrbitSpeed = 0.0002;
+
+      window.addEventListener('scroll', function() {
+        var currentScroll = window.scrollY;
+        var maxScroll = document.body.scrollHeight - window.innerHeight;
+        scrollProgress = currentScroll / maxScroll;
+        
+        // Calculate orbital position based on scroll
+        var orbitAngle = scrollProgress * Math.PI * 2;
+        var orbitRadius = 800;
+        
+        // Determine which planet section is currently visible
+        var visibleSection = null;
+        
+        document.querySelectorAll('.content-section').forEach(function(section, index) {
+          var rect = section.getBoundingClientRect();
+          var sectionCenter = rect.top + rect.height / 2;
+          var screenCenter = window.innerHeight / 2;
+          var distance = Math.abs(sectionCenter - screenCenter);
+          var maxDistance = window.innerHeight / 2;
+          
+          if (distance < maxDistance) {
+            visibleSection = section;
+          }
+        });
+        
+        // Calculate target camera position with smooth continuous motion
+        if (visibleSection) {
+          var zoneName = visibleSection.dataset.zone;
+          var targetPlanet = planets.find(function(p) { return p.userData.name === zoneName; });
+          if (targetPlanet) {
+            currentPlanet = targetPlanet;
+            
+            // Calculate position near planet with continuous motion
+            var approachDistance = targetPlanet.userData.orbitRadius * 0.3 + 100;
+            var zoomFactor = 0.7; // Moderate zoom when section visible
+            
+            // Calculate camera position with orbital momentum
+            var planetPosition = targetPlanet.position.clone();
+            var approachVector = new THREE.Vector3(
+              Math.cos(orbitAngle + orbitalMomentum) * (approachDistance + (1 - zoomFactor) * 150),
+              150 + Math.sin(orbitAngle * 2) * 20,
+              Math.sin(orbitAngle + orbitalMomentum) * (approachDistance + (1 - zoomFactor) * 150)
+            );
+            
+            targetCameraPosition = planetPosition.clone().add(approachVector);
+            targetCameraLookAt = planetPosition;
+          }
+        } else {
+          currentPlanet = null;
+          
+          // Orbit around sun with continuous motion
+          targetCameraPosition = new THREE.Vector3(
+            Math.cos(orbitAngle + orbitalMomentum) * orbitRadius,
+            150 + Math.sin(orbitAngle * 2) * 30,
+            Math.sin(orbitAngle + orbitalMomentum) * orbitRadius
+          );
+          targetCameraLookAt = new THREE.Vector3(0, 0, 0);
+        }
+      });
+
+      function animate(){
+        // Smooth scroll progress transition
+        smoothScrollProgress += (scrollProgress - smoothScrollProgress) * 0.02;
+        
+        // Update orbital momentum for continuous motion
+        orbitalMomentum += baseOrbitSpeed;
+        orbitalMomentum *= 0.99; // Slight damping for natural feel
+        
+        // Smooth camera position transition
+        cameraPosition.lerp(targetCameraPosition, 0.03);
+        cameraLookAt.lerp(targetCameraLookAt, 0.02);
+        
+        // Apply mouse parallax with reduced influence
+        var mouseOffset = new THREE.Vector3(mx * 15, my * 10, 0);
+        var finalPosition = cameraPosition.clone().add(mouseOffset);
+        
+        // Set camera position and look-at with smooth transitions
+        camera.position.copy(finalPosition);
+        camera.lookAt(cameraLookAt);
+        
+        stars1.rotation.y+=0.0002;
+        stars2.rotation.y+=0.0003;
+        stars3.rotation.y+=0.0001;
+
+        // Animate enhanced Sun effects
+        sunGlow.scale.setScalar(1 + Math.sin(Date.now() * 0.002) * 0.1);
+        
+        // Animate corona
+        corona.rotation.y += 0.001;
+        corona.scale.setScalar(1 + Math.sin(Date.now() * 0.001) * 0.2);
+        
+        // Animate solar flares
+        solarFlares.forEach(function(flare) {
+          flare.userData.angle += flare.userData.speed;
+          flare.userData.intensity = 0.3 + Math.sin(Date.now() * 0.003 + flare.userData.angle) * 0.7;
+          
+          var flareX = Math.cos(flare.userData.angle) * flare.userData.distance;
+          var flareY = Math.sin(flare.userData.angle * 2) * 10;
+          var flareZ = Math.sin(flare.userData.angle) * flare.userData.distance;
+          
+          flare.position.set(flareX, flareY, flareZ);
+          flare.material.opacity = flare.userData.intensity;
+          flare.scale.setScalar(0.5 + flare.userData.intensity * 0.5);
+        });
+
+        // Animate satellites with realistic orbital mechanics
+        satellites.forEach(function(satellite) {
+          var userData = satellite.userData;
+          
+          // Update orbital angle
+          userData.angle += userData.orbitSpeed;
+          
+          // Calculate 3D orbital position with tilt
+          var orbitX = Math.cos(userData.angle) * userData.orbitRadius;
+          var orbitZ = Math.sin(userData.angle) * userData.orbitRadius;
+          var orbitY = Math.sin(userData.angle * 2 + userData.orbitTilt) * 50;
+          
+          // Apply elliptical orbit
+          var ellipticalFactor = 1 + Math.sin(userData.angle * 3) * 0.1;
+          satellite.position.set(
+            orbitX * ellipticalFactor,
+            orbitY,
+            orbitZ * ellipticalFactor
+          );
+          
+          // Rotate satellite for realistic orientation
+          satellite.rotation.x = userData.angle * 2;
+          satellite.rotation.y += 0.01;
+          
+          // Animate communication signals
+          userData.signalPhase += 0.05;
+          
+          // Create trail effect
+          if (userData.trailPositions.length > 20) {
+            userData.trailPositions.shift();
+          }
+          userData.trailPositions.push(satellite.position.clone());
+        });
+
+        // Animate planets orbiting the sun
+        planets.forEach(function(planet) {
+          planet.userData.angle += planet.userData.speed * 0.016;
+          planet.position.x = Math.cos(planet.userData.angle) * planet.userData.orbitRadius;
+          planet.position.z = Math.sin(planet.userData.angle) * planet.userData.orbitRadius;
+          
+          // Rotate planet on its axis
+          planet.rotation.y += 0.01;
+
+          // Animate Earth's moon
+          if (planet.userData.moon) {
+            planet.userData.moon.userData.angle += planet.userData.moon.speed * 0.016;
+            planet.userData.moon.position.x = Math.cos(planet.userData.moon.userData.angle) * planet.userData.moon.orbitRadius;
+            planet.userData.moon.position.z = Math.sin(planet.userData.moon.userData.angle) * planet.userData.moon.orbitRadius;
+          }
+        });
+
+        // Animate asteroid belt
+        asteroidBeltGroup.children.forEach(function(asteroid) {
+          asteroid.userData.angle += asteroid.userData.speed * 0.016;
+          asteroid.position.x = Math.cos(asteroid.userData.angle) * asteroid.userData.radius;
+          asteroid.position.z = Math.sin(asteroid.userData.angle) * asteroid.userData.radius;
+        });
+
+        renderer.render(scene,camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      window.addEventListener('resize',function(){
+        camera.aspect=window.innerWidth/window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth,window.innerHeight);
+      });
+
+      window.setSpaceDirection=function(angle){
+        // Simplified direction change
+        console.log('Direction changed to:', angle);
+      };
+
+      console.log('Three.js initialized successfully');
+    } catch(error) {
+      console.error('Three.js initialization failed:', error);
+      // Continue without Three.js - content should still be visible
+    }
+  })();
   
   // Initialize space sound effects
   var spaceSound = document.getElementById('space-sound');
@@ -1426,6 +1742,35 @@ function initPage(){
   
   gsap.to('#direction-indicator',{opacity:1,duration:1,delay:0.5});
   gsap.to('#zone-name',{opacity:0.4,duration:1,delay:0.5});
+  
+  // Ensure content sections are visible initially
+  document.querySelectorAll('.content-section').forEach(function(section){
+    section.style.visibility = 'visible';
+    section.style.opacity = '1';
+  });
+  document.querySelector('.space-journey').style.visibility = 'visible';
+  document.querySelector('.space-journey').style.opacity = '1';
+
+  // Planet-based content emergence
+  document.querySelectorAll('.content-section').forEach(function(section){
+    ScrollTrigger.create({
+      trigger:section,
+      start:'top 60%',
+      end:'bottom 40%',
+      onEnter:function(){
+        section.classList.add('visible');
+      },
+      onLeave:function(){
+        section.classList.remove('visible');
+      },
+      onEnterBack:function(){
+        section.classList.add('visible');
+      },
+      onLeaveBack:function(){
+        section.classList.remove('visible');
+      }
+    });
+  });
   
   // Hero animations
   var tl=gsap.timeline({defaults:{ease:'power4.out'}});
